@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd 
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	<!-- 时间类型要改 -->
+	<bean id="GetDoingTask" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT A_TASK_ID,
+       MAINT_TYPE
+       CALL_NO FROM A_TASK ORDER BY ALLOC_TIME DESC
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	<bean id="SetPushInfo" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+UPDATE A_MOBILE
+  SET PUSH_CHANNEL_ID = ${push_channel_id<STRING>},
+  	  PUSH_USER_ID = ${push_user_id<STRING>}
+ WHERE IMSI = ${imsi<STRING>}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	
+	
+</beans>

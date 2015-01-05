@@ -1,0 +1,420 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>卡布管理后台</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="css/global-min.css" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+<script type="text/javascript" src="scripts/jquery.js"></script>
+<script type="text/javascript">
+// switch sidebar
+var displayBar = true;
+function switchBar() {
+	var $parentDoc = $(window.parent.document);
+	var $togBtn = $('#togSide');
+    if (displayBar) {
+        displayBar=false;		
+		$('#mid',$parentDoc).prop('cols', '0,*');
+		$togBtn.text('>').attr('title', '打开左边管理菜单');
+    }
+    else {
+        displayBar=true;
+		$('#mid',$parentDoc).prop('cols', '190,*');
+		$togBtn.text('<').attr('title', '打开左边管理菜单');
+    }
+}
+
+// checkAllBox
+function bindCheck($obja, $objb) {
+	if ($obja.attr('checked') == 'checked') {
+		$objb.attr('checked', 'checked');
+	}
+	else {
+		$objb.removeAttr('checked');
+	}		
+}
+function checkAll() {	
+	$('#cbCheckAll').click(function() {
+		bindCheck($(this), $('#cbSelectAll'));
+		$('#cbSelectAll').click();
+		bindCheck($(this), $('#cbSelectAll'));		
+	});
+	// checkAll
+	$('#cbSelectAll').click(function() {
+		bindCheck($('#cbSelectAll'),$(this));
+		if ($(this).attr('checked') == 'checked') {
+			$('[name="tabCheck"]').attr('checked', 'checked');
+		}
+		else {			
+			$('[name="tabCheck"]').removeAttr('checked');
+		}
+		bindCheck($(this), $('#cbCheckAll'));
+	});
+}
+
+$(document).ready(function() {
+	
+	// switch sidebar
+	$('body.mainBody').append('<a id="togSide" href="#" title="收缩侧边栏">&lt;</a>');
+	$('#togSide').click(switchBar);
+	
+	// comTablList 
+	$('.comTabList').each(function() {
+		$(this).find('tr:first').addClass('first').end().find('tr:last').addClass('last');
+		$('tr:odd', this).addClass('odd');
+		$('tr:even', this).addClass('eve');
+		$('tr', this).each(function() {
+			$(this).find('th:last, td:last').addClass('last');
+		});
+		$('tr').hover(function() {
+			$(this).addClass('hover');
+		}, function() {
+			$(this).removeClass('hover');
+		});
+	});
+		
+	checkAll();	// checkAllBox
+});
+</script>
+</head>
+
+<body class="mainBody">
+
+<div class="wrapper comWrap">
+      <div class="wrap-tit clearfix"><h3 class="wrap-tit-l"><span class="icos ico_1">通用列表</span></h3><p class="wrap-tit-r"><a class="addItem" href="#">新增条目</a></p></div>
+      <div class="wrap-inner">
+        <table id="" class="comTabList" width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <th width="3%"><input type="checkbox" id="cbSelectAll" name="cbSelectAll" class="" title="" /></th>
+            <th width="10%">编号</th>
+            <th width="12%">用户名</th>
+            <th width="12%">姓名</th>
+            <th width="12%">性别</th>
+            <th width="12%">所在地</th>
+            <th width="12%">联系电话</th>
+            <th width="12%">最后登录日期</th>
+            <th width="15%">操作</th>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>01</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>02</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>03</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>04</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>05</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>06</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>07</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>08</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>09</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>10</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>10</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>10</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>10</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>10</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>10</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>10</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td><input type="checkbox" id="" name="tabCheck" class="" title="" /></td>
+            <td>10</td>
+            <td>delwlyer</td>
+            <td>李露</td>
+            <td>男</td>
+            <td>长沙</td>
+            <td>1877483612</td>
+            <td>2012-08-06</td>
+            <td>
+              <span class="operate">
+                <a href="#">刷新</a>
+                <a href="#">修改</a>
+                <a href="#">删除</a>
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="wrap-btm clearfix"><div class="wrap-btm-l">&nbsp;</div><div class="wrap-btm-r">&nbsp;</div></div>
+    </div><!--/.wrapper-->
+    
+    <div class="pages clearfix">
+    	<span class="batch fl mr10">
+        <label class="selAll"><input type="checkbox" id="cbCheckAll" name="cbCheckAll" class="" title="" />全选</label>
+        <a class="opt" href="#">批量修改</a>
+        <a class="opt" href="#">批量删除</a>
+        </span>
+    	<span class="info fl">
+        <em>共有<b>265</b>条数据，当前第<b>1</b>条</em>
+        </span>
+    	<span class="list fr">
+        <a href="#">&lt;</a>
+        <a href="#">1</a>
+        <a href="#">2</a>
+        <b>3</b>
+        <a href="#">4</a>
+        <a href="#">5</a>
+        <a href="#">6</a>
+        <a href="#">7</a>
+        <a href="#">8</a>
+        <a href="#">9</a>
+        <a href="#">10</a>
+        <em>...</em>
+        <a href="#">20</a>
+        <a href="#">&gt;</a>
+        </span>
+    </div>
+    
+</body>
+</html>

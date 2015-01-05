@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd 
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	
+	<bean id="mobile_list" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT A_MOBILE_ID, MOBILE_NO, IMSI, SVR_SITE, IS_ACTIVE, DESCRIPTION FROM A_MOBILE
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	<bean id="mobile" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT A_MOBILE_ID, MOBILE_NO, IMSI, SVR_SITE, IS_ACTIVE, DESCRIPTION FROM A_MOBILE WHERE A_MOBILE_ID = ${id}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	<bean id="mobile_delete" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+DELETE FROM A_MOBILE WHERE A_MOBILE_ID = ${id}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	<bean id="mobile_insert" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+INSERT INTO A_MOBILE
+  (A_MOBILE_ID, MOBILE_NO, IMSI, SVR_SITE, IS_ACTIVE, DESCRIPTION)
+VALUES
+  (SEQ_A_VEHICLE.NEXTVAL,
+   ${MOBILE_NO<STRING>},
+   ${IMSI<STRING>},
+   ${SVR_SITE<STRING>},
+   ${IS_ACTIVE<STRING>},
+   ${DESCRIPTION<STRING>})
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="mobile_update" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+UPDATE A_MOBILE
+   SET MOBILE_NO   = ${MOBILE_NO<STRING>},
+       IMSI        = ${IMSI<STRING>},
+       SVR_SITE    = ${SVR_SITE<STRING>},
+       IS_ACTIVE   = ${IS_ACTIVE<STRING>},
+       DESCRIPTION = ${DESCRIPTION<STRING>}
+ WHERE A_MOBILE_ID = ${id}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	
+</beans>

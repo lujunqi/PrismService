@@ -1,0 +1,122 @@
+@charset "utf-8";
+body {
+	font:12px/1.5 Tahoma, Arial, \5FAE\8F6F\96C5\9ED1, \5B8B\4F53;
+	background:#bfbfbf url(../images/loginBg.png) repeat-x 0 -100px;
+	color:#333;
+}
+a:link, a:visited { color:#333;text-decoration:none; }
+a:hover, a:active, a:focus { color:#39F;text-decoration:underline; }
+
+html, body {
+	height:100%;
+}
+.topimg {	
+	min-width:1000px;
+	height:100%;
+	background:url(../images/login_top.png) no-repeat 50% -100px;
+}
+#login {
+	width:800px;	
+	height:370px;
+	min-width:800px;
+	margin:0 auto;
+	padding-top:59px;
+	overflow:hidden;
+	background:url(../images/login.jpg) no-repeat 50% 59px;
+}
+#login .logo {
+	float:left;
+	display:inline;
+	width:390px;
+	margin-left:10px;
+	padding-top:150px;
+	text-align:center;
+}
+#login .form {
+	padding:120px 140px 20px;
+}
+#login .form .infor {
+	height:auto;
+	padding-left:54px;
+	color:#c00;
+}
+#login .form ul {
+	padding-left:80px;
+	border-left:1px solid #ddd;
+}
+#login .form li {
+	line-height:42px;
+	margin-bottom:10px;
+}
+#login .form li label {
+	display:inline-block;
+	*display:inline;
+	*zoom:1;
+	margin-right:5px;
+	vertical-align:top;
+	font-size:14px;
+}
+#login .form li .inputWrap {
+	display:inline-block;
+	*display:inline;
+	*zoom:1;
+	background:url(../images/login_input.gif) no-repeat;
+}
+#login .form li .inputWrap .fix {
+	display:inline-block;
+	*display:inline;
+	*zoom:1;
+	width:250px;
+	height:42px;
+	vertical-align:top;
+	overflow:hidden;
+	background:url(../images/login_input.gif) no-repeat right bottom;
+}
+#login .form li .txt {
+	width:240px;
+	height:36px;
+	line-height:36px;
+	padding:3px 5px;
+	border:none;
+	background:transparent;
+	font-size:16px;
+	color:#666;
+}
+#login .form li .short {
+	width:130px;
+}
+#login .form li .short .fix {
+	width:130px;	
+}
+#login .form li .short .txt {
+	width:120px;	
+}
+#login .form li .codeImg {
+	margin-left:5px;
+}
+#login .form li .loginBtn,
+#login .form li .loginRst {
+	width:120px;
+	height:42px;
+	line-height:40px;
+	border:none;
+	cursor:pointer;
+	font-size:16px;
+	font-weight:700;
+}
+#login .form li .loginBtn{
+	background:#3c99cf url(../images/loginBtn.png) no-repeat;
+	color:#fff;
+	margin-right:5px;
+}
+#login .form li .loginRst{
+	background:#3c99cf url(../images/loginBtn.png) no-repeat right top;
+	color:#666;
+}
+#login .form li.btns {
+	margin-top:15px;
+	padding-left:62px;
+}
+#login .form li .getCode {
+	margin-left:5px;
+}

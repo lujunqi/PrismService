@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd 
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+	<!-- 时间类型要改 -->
+	<bean id="sqlMap" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="SQL1">
+				    <value>
+<![CDATA[
+INSERT INTO A_TASK 
+  (A_TASK_ID,
+   MAINT_TYPE, 
+   CALL_NO, 
+   CALL_MAN,
+   CALL_TEL, 
+   PLATE_NO, 
+   A_VEHICLE_ID,
+   VEHICLE_STATUS, 
+   ACCIDENT_PLACE,
+   ACCIDENT_TIME, 
+   A_INSURER_ID, 
+   SURVEY_MAN,
+   SURVEY_TEL, 
+   SM_NO, 
+   SM_TIME, 
+   SM,
+   ALLOC_TIME,
+   ALLOC_TYPE,
+   A_MOBILE_ID
+   ) 
+VALUES 
+  (SEQ_A_VEHICLE.NEXTVAL,
+   ${sxlx<STRING>}, 
+   ${bah<STRING>}, 
+   ${bar<STRING>},
+   ${bardh<STRING>}, 
+   ${cp<STRING>},
+   ${cx<STRING>}, 
+   ${ck<STRING>},
+   ${cxd<STRING>}, 
+   ${cx<STRING>},
+   ${insurer_id<STRING>}, 
+   ${kcy<STRING>},
+   ${kcydh<STRING>}, 
+   ${sm_no<STRING>},
+   SYSDATE,
+   ${sm<STRING>},
+   SYSDATE,
+   'A',
+   ${A_MOBILE_ID<STRING>}
+   )
+]]>
+				    </value>
+				</entry>
+				<entry key="SQL2">
+				    <value>
+<![CDATA[
+INSERT INTO A_TASK
+  (A_TASK_ID, A_INSURER_ID, SM_NO, SM_TIME, SM) 
+VALUES
+  (SEQ_A_VEHICLE.NEXTVAL, 
+   ${insurer_id<STRING>},
+   ${sm_no<STRING>}, 
+   SYSDATE,
+   ${sm<STRING>} )
+]]>
+				    </value>
+				</entry>
+				<entry key="SQL3">
+				    <value>
+<![CDATA[
+SELECT M.PUSH_CHANNEL_ID,M.PUSH_USER_ID,M.A_MOBILE_ID
+  FROM A_ALLOC_RULE AR, A_VEHICLE V, A_MOBILE M
+ WHERE AR.A_VEHICLE_ID = V.A_VEHICLE_ID
+   AND M.A_MOBILE_ID = AR.A_MOBILE_ID
+   AND M.IS_ACTIVE = 0 
+   AND V.MODEL = ${pp<STRING>}
+   AND ROWNUM < 2
+]]>
+				    </value>
+				</entry>
+				
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean id="task1_list" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="DSQL">
+					<value>
+<![CDATA[
+SELECT T.CALL_MAN,
+       T.CALL_TEL,
+       I.NAME A_INSURER_NAME,
+       TO_CHAR(T.SM_TIME, 'YYYY-MM-DD') SM_TIME,
+       T.SM,
+       DECODE( ALLOC_TIME,NULL,'<a href="javascript:alloc('||T.A_TASK_ID||')">[分配]</a>','<a href="javascript:unAlloc('||T.A_TASK_ID||')">[取消]</a>') OPT,
+       T.ALLOC_USER_ID
+  FROM A_TASK T, A_INSURER I, A_VEHICLE V, A_MOBILE M
+ WHERE V.A_VEHICLE_ID(+) = T.A_VEHICLE_ID
+   AND M.A_MOBILE_ID(+) = T.A_MOBILE_ID
+   AND I.A_INSURER_ID = T.A_INSURER_ID
+   AND NVL(T.ALLOC_TYPE,'M') != 'A'
+   AND 	DECODE(T.ALLOC_TIME,NULL,'N','Y' )= $v.set("ALLOC","STRING")
+ ORDER BY SM_TIME DESC
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="task1_unalloc" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+UPDATE A_TASK
+   SET ALLOC_TIME = null,
+	   ALLOC_TYPE = null,
+		ALLOC_USER_ID = null,
+		A_MOBILE_ID = null
+ WHERE A_TASK_ID = ${id}
+   AND  ALLOC_TIME IS NOT NULL
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	<bean id="task1_alloc" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+UPDATE A_TASK
+   SET ALLOC_TIME = SYSDATE,
+	   ALLOC_TYPE = 'M',
+		ALLOC_USER_ID = ${session.get('USER_ID')},
+		A_MOBILE_ID = ${A_MOBILE_ID<STRING>}
+ WHERE A_TASK_ID = ${id}
+   AND  ALLOC_TIME IS NULL
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+
+</beans>

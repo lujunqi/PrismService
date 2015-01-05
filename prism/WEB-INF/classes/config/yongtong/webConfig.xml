@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd 
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<!-- 测试1 -->
+	<bean id="login" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT USER_ID, USER_NAME
+ FROM A_USER WHERE USER_ACC = ${USER_ACC<STRING>} AND USER_PWD = ${USER_PWD<STRING>}]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	<bean id="loginAop" class="manager.LoginAop" />
+	<aop:config>
+		<aop:aspect ref="loginAop">
+			<aop:around method="check" pointcut="bean(login)" />
+		</aop:aspect>
+	</aop:config>
+
+	<bean id="vehicle_view" class="com.prism.service.impl.basic.NormalHTMLService">
+		<property name="sourceMap">
+			<map>
+				<entry key="VIEWNAME" value="终端台账" />
+				<entry key="MAPPING">
+					<list>
+						<array>
+							<value>CHANNEL_NAME</value>
+							<value>#@CHANNEL_NAME#</value>
+						</array>
+						<array>
+							<value>CHANNEL_ID</value>
+							<value>#@CHANNEL_ID#</value>
+						</array>
+					</list>
+				</entry>
+				<entry key="QUERY">
+					<list>
+						<value>$el.text("商户门店名称1","shmdmc1")</value>
+						<value>$el.text("商户门店名称2","shmdmc2",$val)</value>
+						<value>$el.checkbox("复选框","fxk",[{"V":"1","D":"选择一","C":"checked"},{"V":"2","D":"选择二"}])
+						</value>
+						<value>$el.radio("单选框","dxk",[{"V":"1","D":"选择一","C":"checked"},{"V":"2","D":"选择二"}])
+						</value>
+						<value>$el.select("下拉框","xlk",$el.getContext('ws_area'),"4304")
+						</value>
+						<value>$el.hidden("hidden","1")</value>
+						<value>$el.date("录入时间","date","2014-10-10","2014-10-12")</value>
+						<value>$el.win("渠道","channel","url:channel_list.do")</value>
+
+					</list>
+
+				</entry>
+				<entry key="DATAURL" value="vehicle_list.do" />
+				<entry key="TEMPLATE" value="/page/model_list.jsp" />
+			</map>
+		</property>
+	</bean>
+	<bean id="channel_list" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT T.CHANNEL_ID V, T.CHANNEL_NAME D FROM CHANNEL_INFO T
+]]>
+					</value>
+				</entry>
+				<entry key="FORWARD" value="page/win_list1.jsp" />
+			</map>
+		</property>
+	</bean>
+	<bean id="vehicle_list" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT CHANNEL_ID, CHANNEL_NAME, CHANNEL_AREA FROM CHANNEL_INFO WHERE ROWNUM < 2
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	<bean id="a105_list" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT T.APPPAY_ID,T.APPTYPE,T.ACCOUNT_NO,T.ACCOUNT_BANK,T.ACCOUNT_BANK_BRACH FROM APPPAY_105 T WHERE ID = ${id<LONG>}
+]]>
+					</value>
+				</entry>
+				<entry key="FORWARD" value="page/a105_list.jsp" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="ws_area" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT A.AREAID V,A.CITY D FROM WS_AREA A
+]]>
+					</value>
+				</entry>
+
+			</map>
+		</property>
+	</bean>
+
+
+</beans>

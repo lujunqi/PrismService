@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>卡布管理后台</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="css/global-min.css" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+<link rel="stylesheet" type="text/css" href="css/jquery.selectbox.css" />
+<script type="text/javascript" src="scripts/jquery.js"></script>
+<script type="text/javascript" src="scripts/jquery.selectbox-0.2.min.js"></script>
+<script type="text/javascript">
+$(function () {
+	$("#selectBox").selectbox();
+});
+</script>
+<script type="text/javascript" src="scripts/common.js"></script>
+</head>
+
+<body class="mainBody">
+
+    <div class="wrapper comWrap">
+      <div class="wrap-tit clearfix"><h3 class="wrap-tit-l"><span class="icos ico_1">通用表单</span></h3><p class="wrap-tit-r"><a class="addItem" href="#">更多</a></p></div>
+      <div class="wrap-inner">
+      	<div class="comFrmList p15">
+        	<form id="" name="" action="#" method="post">
+            
+            <ul class="list split p5">
+            <li><label class="tit w60" for="">用户名：<span class="alert">*</span></label> <input type="text" class="itm w180" id="" name="" /></li>
+            <li><label class="tit w60" for="">密码：<span class="alert">*</span></label> <input type="text" class="itm w180" id="" name="" /></li>
+            <li><label class="tit w60" for="">所在地区：</label>
+            	<select class="itm w190" id="" name="">
+                <option>选择所在地区</option>
+                <option>北京</option>
+                <option>上海</option>
+                <option>长沙</option>
+                </select></li>
+            <li>
+            	<div class="fl mr5"><label class="tit w60" for="">国籍：</label></div>
+                <div class="fl">
+                <select class="itm w190" name="selectBox" id="selectBox" tabindex="1">
+                    <option value="">-- 选择国籍 --</option>
+                    <optgroup label="North America">
+                        <option value="1">USA</option>
+                        <option value="9">Canada</option>
+                    </optgroup>
+                    <optgroup label="Europe">
+                        <option value="2">France</option>
+                        <option value="3">Spain</option>
+                        <option value="6">Bulgaria</option>
+                        <option value="7" disabled="disabled">Greece</option>
+                        <option value="8">Italy</option>
+                    </optgroup>
+                    <optgroup label="Asia" disabled="disabled">
+                        <option value="5">Japan</option>
+                        <option value="11">China</option>
+                    </optgroup>
+                    <option value="4">Brazil</option>
+                    <option value="10">South Africa</option>
+                </select>
+                </div>
+                <div class="clear"></div>
+            </li>
+            </ul>  
+                      
+            <ul class="list split p5">
+            <li><label class="tit w60" for="">姓名：</label> <input type="text" class="itm w180" id="" name="" /></li>
+            <li><label class="tit w60" for="">性别：</label>
+            	<label class="rdo" for=""><input type="radio" id="" name="sex" />男</label>
+                <label class="rdo" for=""><input type="radio" id="" name="sex" />女</label></li>
+            <li><label class="tit w60" for="">手机号码：</label> <input type="text" class="itm w180" id="" name="" /></li>
+            <li><label class="tit w60" for="">联系电话：</label>
+            	<input type="text" class="itm w30" id="" name="" value="086" /> -
+            	<input type="text" class="itm w50" id="" name="" /> -
+            	<input type="text" class="itm w80" id="" name="" /></li>
+            <li><label class="tit w60" for="">QQ号码：</label> <input type="text" class="itm w180" id="" name="" /></li>
+            <li><label class="tit w60" for="">电子邮箱：</label> <input type="text" class="itm w180" id="" name="" /></li>
+            <li><label class="tit w60" for="">家庭地址：</label> <input type="text" class="itm w180" id="" name="" /></li>
+            </ul>
+            
+            <ul class="list split p5">
+            <li><label class="tit w60" for="">公司名称：</label> <input type="text" class="itm w240" id="" name="" /></li>
+            <li><label class="tit w60" for="">公司地址：</label> <input type="text" class="itm w240" id="" name="" /></li>
+            <li><label class="tit w60" for="">所在部门：</label> <input type="text" class="itm w240" id="" name="" /></li>
+            <li><label class="tit w60" for="">个人职位：</label> <input type="text" class="itm w240" id="" name="" /></li>
+            <li><label class="tit w60" for="">兴趣爱好：</label>
+            	<label class="chk" for=""><input type="checkbox" id="" name="1" />阅读</label>
+            	<label class="chk" for=""><input type="checkbox" id="" name="2" />运动</label>
+            	<label class="chk" for=""><input type="checkbox" id="" name="3" />饮食</label>
+            	<label class="chk" for=""><input type="checkbox" id="" name="4" />旅游</label></li>
+            <li><label class="tit w60 vat" for="">自我介绍：</label>
+            	<textarea class="itm w300 h100" id="" name="" cols="25" rows="5"></textarea></li>
+            <li><label class="tit w60 vat" for="">个性签名：</label>
+            	<textarea class="itm w300 h100" id="" name="" cols="25" rows="5"></textarea></li>
+            </ul>
+                   
+            <ul class="list liquid split p5">
+            <li><label class="tit w60" for="">项目一：</label> <input type="text" class="itm w120" id="" name="" /></li>
+            <li><label class="tit w60" for="">项目二：</label> <input type="text" class="itm w120" id="" name="" /></li>
+            <li><label class="tit w60" for="">项目三：</label> <input type="text" class="itm w120" id="" name="" /></li>
+            <li><label class="tit w60" for="">项目四：</label> <input type="text" class="itm w120" id="" name="" /></li>
+            <li><label class="tit w60" for="">项目五：</label> <input type="text" class="itm w120" id="" name="" /></li>
+            <li><label class="tit w60" for="">项目六：</label> <input type="text" class="itm w120" id="" name="" /></li>
+            <li><label class="tit w60" for="">项目七：</label> <input type="text" class="itm w120" id="" name="" /></li>
+            <li><label class="tit w60" for="">项目八：</label> <input type="text" class="itm w120" id="" name="" /></li>
+            <li><label class="tit w60" for="">项目九：</label> <input type="text" class="itm w120" id="" name="" /></li>
+            </ul>
+            <ul class="list liquid p5">
+            <li><label class="tit w60" for="">标题一：</label> <input type="text" class="itm w200" id="" name="" /></li>
+            <li><label class="tit w60" for="">标题二：</label> <input type="text" class="itm w200" id="" name="" /></li>
+            <li><label class="tit w60" for="">标题三：</label> <input type="text" class="itm w200" id="" name="" /></li>
+            <li><label class="tit w60" for="">标题四：</label> <input type="text" class="itm w200" id="" name="" /></li>
+            <li><label class="tit w60" for="">标题五：</label> <input type="text" class="itm w200" id="" name="" /></li>
+            <li><label class="tit w60" for="">标题六：</label> <input type="text" class="itm w200" id="" name="" /></li>
+            </ul>
+            
+            <div class="submit">
+            	<input type="submit" class="frmSubmit ml70" id="" name="" value="确定" />
+            </div>
+            <div class="submit">
+            	<input type="submit" class="frmSubmit mr10" id="" name="" value="确定" />
+            	<input type="submit" class="frmSubmit_s1 mr10" id="" name="" value="确认提交" />
+            	<input type="submit" class="frmSubmit_s2" id="" name="" value="同意协议并注册" />
+            </div>
+            
+            </form>
+        </div>
+      </div>
+      <div class="wrap-btm clearfix"><div class="wrap-btm-l">&nbsp;</div><div class="wrap-btm-r">&nbsp;</div></div>
+    </div><!--/.wrapper-->
+    
+</body>
+</html>

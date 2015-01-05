@@ -1,0 +1,407 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>长沙移动掌上营销平台</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="css/global-min.css" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+<link rel="stylesheet" type="text/css" href="css/form.css" />
+<script type="text/javascript" src="scripts/jquery.js"></script>
+<script type="text/javascript" src="scripts/common.js"></script>
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $('.uploader').each(function(index, element) {
+		var $uploader = $(this);
+		var $path = $('.path', $uploader);
+		var $file = $('.file', $uploader);
+		$file.change(function() {
+			var filePath = $(this).val().split('\\');;
+			$path.val(filePath[filePath.length-1]);
+		})
+    });
+	
+});
+</script>
+</head>
+
+<body class="mainBody">
+
+<div class="crumb mb10">
+	<div class="crumb-l">&nbsp;</div>
+	<div class="crumb-r">&nbsp;</div>
+    <div class="crumb-m clearfix">
+    	<a href="#" class="home"><b>&nbsp;</b>首页</a>
+    	<a href="#" class="link">开卡业务</a>
+    	<span class="label">开卡信息</span>
+    </div>
+</div>
+
+<div class="wrapper comWrap">
+  <div class="wrap-tit clearfix">
+    <h3 class="wrap-tit-l"><span class="icon">推荐业务列表</span></h3>
+    <div class="wrap-tit-r">     
+        <div class="filter">
+            <span class="mr5"><em>输入框</em> <input type="text" class="w100" id="search"/> </span> 
+            <span class="mr5"><em>下拉框</em>
+                <select id="employeeS" class="w100">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                 </select>   
+            </span>
+            <span class="mr5"><em>时间</em> <input type="text" class="w100" id="search"/> </span>
+            <span class="mr5"><input type="submit" class="btn" value="提交" /></span>
+            <span class="mr5"><input type="reset" class="btnAlt" value="重置" /></span>
+            <span class="mr5"><a class="btn" href="javascript:queryEmployeeInfo()">查询</a></span>
+        </div>
+    </div>
+  </div>
+  <div class="wrap-inner">
+  	
+    <table id="" class="comTabList" width="100%" border="0" cellspacing="0" cellpadding="0">
+      <thead>
+          <tr>
+            <th width="30%">业务名称</th>
+            <th width="16%">业务类别</th>
+            <th width="16%">有效时间</th>
+            <th width="18%">地区</th>
+            <th width="">操作</th>
+          </tr>
+      </thead> 
+      <tbody id="">
+        <tr>
+          <td><a href="page/employee_info.jsp?emp_id=3" target="main">100元数据流量（送50）</a></td>
+          <td>数据业务</td>
+          <td>2013-07-31</td>
+          <td>长沙</td>
+          <td class="last"><span class="operate"> <a href="javascript:updateEmployee(3)">[详情]</a> </span></td>
+        </tr>
+        <tr>
+          <td><a href="page/employee_info.jsp?emp_id=3" target="main">100元数据流量（送50）</a></td>
+          <td>数据业务</td>
+          <td>2013-07-31</td>
+          <td>长沙</td>
+          <td class="last"><span class="operate"> <a href="javascript:updateEmployee(3)">[详情]</a> </span></td>
+        </tr>
+        <tr>
+          <td><a href="page/employee_info.jsp?emp_id=3" target="main">100元数据流量（送50）</a></td>
+          <td>数据业务</td>
+          <td>2013-07-31</td>
+          <td>长沙</td>
+          <td class="last"><span class="operate"> <a href="javascript:updateEmployee(3)">[详情]</a> </span></td>
+        </tr>
+        <tr>
+          <td><a href="page/employee_info.jsp?emp_id=3" target="main">100元数据流量（送50）</a></td>
+          <td>数据业务</td>
+          <td>2013-07-31</td>
+          <td>长沙</td>
+          <td class="last"><span class="operate"> <a href="javascript:updateEmployee(3)">[详情]</a> </span></td>
+        </tr>
+        <tr>
+          <td><a href="page/employee_info.jsp?emp_id=3" target="main">100元数据流量（送50）</a></td>
+          <td>数据业务</td>
+          <td>2013-07-31</td>
+          <td>长沙</td>
+          <td class="last"><span class="operate"> <a href="javascript:updateEmployee(3)">[详情]</a> </span></td>
+        </tr>
+        <tr>
+          <td><a href="page/employee_info.jsp?emp_id=3" target="main">100元数据流量（送50）</a></td>
+          <td>数据业务</td>
+          <td>2013-07-31</td>
+          <td>长沙</td>
+          <td class="last"><span class="operate"> <a href="javascript:updateEmployee(3)">[详情]</a> </span></td>
+        </tr>
+        <tr>
+          <td><a href="page/employee_info.jsp?emp_id=3" target="main">100元数据流量（送50）</a></td>
+          <td>数据业务</td>
+          <td>2013-07-31</td>
+          <td>长沙</td>
+          <td class="last"><span class="operate"> <a href="javascript:updateEmployee(3)">[详情]</a> </span></td>
+        </tr>
+        <tr>
+          <td><a href="page/employee_info.jsp?emp_id=3" target="main">100元数据流量（送50）</a></td>
+          <td>数据业务</td>
+          <td>2013-07-31</td>
+          <td>长沙</td>
+          <td class="last"><span class="operate"> <a href="javascript:updateEmployee(3)">[详情]</a> </span></td>
+        </tr>
+        <tr>
+          <td><a href="page/employee_info.jsp?emp_id=3" target="main">100元数据流量（送50）</a></td>
+          <td>数据业务</td>
+          <td>2013-07-31</td>
+          <td>长沙</td>
+          <td class="last"><span class="operate"> <a href="javascript:updateEmployee(3)">[详情]</a> </span></td>
+        </tr>
+      </tbody>
+    </table>
+    <div>
+    <div class="p10">
+      <div class="pages tr clearfix">
+    	<span class="info fl">
+        <em>共有<b>265</b>条数据，当前第<b>1</b>条</em>
+        </span>
+        <span id="pages" class="list"><a href="javascript:void();">&lt;</a>
+        <a href="javascript:void();" class="cur" onclick="paginates(this); return false;">1</a>
+        <a href="javascript:void();" onclick="paginates(this); return false;">2</a>
+        <a href="javascript:void();" onclick="paginates(this); return false;">3</a>
+        <a href="javascript:void();" onclick="paginates(this); return false;">4</a>
+        <a href="javascript:void();" onclick="paginates(this); return false;">5</a>
+        <a href="javascript:void();">&gt;</a>
+        </span>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="wrap-btm clearfix">
+    <div class="wrap-btm-l">&nbsp;</div>
+    <div class="wrap-btm-r">&nbsp;</div>
+  </div>
+</div>
+<!--/.wrapper-->
+
+<div class="blank10"></div>
+
+<div class="wrapper comWrap">
+  <div class="wrap-tit clearfix">
+    <h3 class="wrap-tit-l"><span class="icon icon-list-alt mr5"></span>员工管理</h3>
+    <div class="wrap-tit-r">     
+        <div class="filter">
+            <span class="mr5"><b>输入框</b> <input type="text" class="w100" id="search"/> </span> 
+            <span class="mr5"><b>下拉框</b>
+                <select id="employeeS" class="w100">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                 </select>   
+            </span>
+            <span class="mr5"><b>时间</b> <input type="text" class="w100" id="search"/> </span>
+            <span class="mr5"><input type="submit" class="btn" value="提交" /></span>
+            <span class="mr5"><input type="reset" class="btnAlt" value="重置" /></span>
+            <span class="mr5"><a class="btn" href="javascript:queryEmployeeInfo()">查询</a></span>
+        </div>
+    </div>
+  </div>
+  <div class="wrap-inner">
+  	
+    <form class="baseFrm" id="" name="" action="" target="" method="post">
+      <ul class="frmList clearfix">
+      <li>
+      	<div class="half">
+          <span class="lab"><label for="">输入框：</label></span>
+          <span class="mod"><input type="text" class="text w250" id="" name="" /></span>
+        </div>
+      	<div class="half">
+          <span class="lab"><label for="">输入框：</label></span>
+          <span class="mod"><input type="text" class="text w250" id="" name="" /></span>
+        </div>
+      </li>
+      <li>
+      	<div class="half">
+          <span class="lab"><label for="">输入框：</label></span>
+          <span class="mod"><input type="text" class="text w250" id="" name="" /></span>
+        </div>
+      	<div class="half">
+          <span class="lab"><label for="">输入框：</label></span>
+          <span class="mod"><input type="text" class="text w250" id="" name="" /></span>
+        </div>
+      </li>
+      <li>
+          <span class="lab"><label for="">密码框：</label></span>
+          <span class="mod"><input type="password" class="password w250" /></span>
+      </li>
+      <li>
+          <span class="lab"><label for="">单选框：</label></span>
+          <span class="mod">
+          <label class="mr15"><input type="radio" class="radio" id="male" name="sex" />男</label>
+          <label><input type="radio" class="radio" id="female" name="sex" />女</label>
+          </span>
+      </li>
+      <li>
+          <span class="lab"><label for="">复选框：</label></span>
+          <span class="mod">
+          <label class="mr15" for=""><input type="checkbox" class="checkbox" id="" name="" checked="checked" />复选一</label>
+          <label class="mr15" for=""><input type="checkbox" class="checkbox" id="" name="" />复选二</label>
+          <label for=""><input type="checkbox" class="checkbox" id="" name="" />复选三</label>
+          </span>
+      </li>
+      <li>
+          <span class="lab"><label for="">文件框：</label></span>
+          <span class="mod"><input type="file" class="" id="" name="" /></span>
+      </li>
+      <li>
+          <span class="lab"><label for="">下拉框：</label></span>
+          <span class="mod">
+            <select class="w200" id="" name="">
+            <option value="1">一级选项</option>
+            <optgroup label="二级分类">
+                <option value="2">二级选项</option>
+                <option value="3">二级选项</option>
+            </optgroup>
+            <optgroup label="二级分类">
+                <option value="4">二级选项</option>
+            </optgroup>
+            <option value="5">一级选项</option>
+            </select>
+          </span>
+      </li>
+      <li>
+          <span class="lab"><label for="">多文本框：</label></span>
+          <span class="mod"><textarea class="w350 h100 mt5" id="" cols="5" rows="5"></textarea></span>
+      </li>
+      <li>
+          <span class="lab">&nbsp;</span>
+          <span class="mod">
+          <input type="reset" class="frmResetAlt" id="" name="" value="重置" />
+          <input type="reset" class="frmReset" id="" name="" value="重置" />
+          <input type="button" class="frmButtonAlt" id="" name="" value="按钮" />
+          <input type="button" class="frmButton" id="" name="" value="按钮" />
+          <input type="submit" class="frmSubmitAlt" id="" name="" value="提交" />
+          <input type="submit" class="frmSubmit" id="" name="" value="提交" />
+          <a href="javascript:void();" class="frmBtnAlt" id="">确定</a>
+          <a href="javascript:void();" class="frmBtn" id="">确定</a>
+          </span>
+      </li>
+      </ul>
+      <ul class="frmList clearfix">
+      <li>
+          <span class="lab"><label for="">用户名：</label></span>
+          <span class="mod"><input type="text" class="text w200" id="" name="" /></span>
+      </li>
+      <li>
+          <span class="lab"><label for="">密　码：</label></span>
+          <span class="mod"><input type="password" class="password w200" /></span>
+      </li>
+      <li>
+          <span class="lab"><label for="">确认密码：</label></span>
+          <span class="mod"><input type="password" class="password w200" /></span>
+      </li>
+      <li>
+          <span class="lab"><label for="">姓　名：</label></span>
+          <span class="mod"><input type="text" class="text w200" id="" name="" /></span>
+      </li>
+      <li>
+          <span class="lab"><label for="">性　别：</label></span>
+          <span class="mod">
+          <label class="mr10"><input type="radio" class="radio" id="male" name="sex" />男</label>
+          <label><input type="radio" class="radio" id="female" name="sex" />女</label>
+          </span>
+      </li>
+      <li>
+          <span class="lab"><label for="">兴趣爱好：</label></span>
+          <span class="mod">
+          <label class="mr10" for=""><input type="checkbox" class="checkbox" id="" name="" checked="checked" />阅读</label>
+          <label class="mr10" for=""><input type="checkbox" class="checkbox" id="" name="" />运动</label>
+          <label class="mr10" for=""><input type="checkbox" class="checkbox" id="" name="" />旅游</label>
+          <label for=""><input type="checkbox" class="checkbox" id="" name="" />饮食</label>
+          </span>
+      </li>
+      <li>
+          <span class="lab"><label for="">国　籍：</label></span>
+          <span class="mod">
+            <select class="itm w100" name="selectBox" id="selectBox" tabindex="1">
+            <option value="">-- 选择国籍 --</option>
+            <optgroup label="North America">
+                <option value="1">USA</option>
+                <option value="9">Canada</option>
+            </optgroup>
+            <optgroup label="Europe">
+                <option value="2">France</option>
+                <option value="3">Spain</option>
+                <option value="6">Bulgaria</option>
+                <option value="7" disabled="disabled">Greece</option>
+                <option value="8">Italy</option>
+            </optgroup>
+            <optgroup label="Asia" disabled="disabled">
+                <option value="5">Japan</option>
+                <option value="11">China</option>
+            </optgroup>
+            <option value="4">Brazil</option>
+            <option value="10">South Africa</option>
+        </select>
+          </span>
+      </li>
+      <li>
+          <span class="lab"><label for="">所在地：</label></span>
+          <span class="mod">
+            <select class="w100" id="" name="">
+            <option value="选择城市">-- 选择城市 --</option>
+            <option value="北京">北京</option>
+            <option value="上海">上海</option>
+            <option value="深圳">深圳</option>
+            <optgroup label="湖南">
+                <option value="长沙">长沙</option>
+                <option value="长沙">长沙</option>
+                <option value="湘潭">湘潭</option>
+            </optgroup>
+            <optgroup label="湖北">
+                <option value="4">武汉</option>
+            </optgroup>
+            <option value="香港">香港</option>
+            </select>
+          </span>
+      </li>
+      <li>
+          <span class="lab"><label for="">上传资料：</label></span>
+          <span class="mod">
+            <span class="uploader">
+            <input type="text" class="path" id="" name="" value="" />
+            <input type="button" class="btn" id="" name="" value="浏览 ..." />
+            <input type="file" class="file" id="" name="" value="" />
+            </span>
+          </span>
+      </li>
+      <li>
+          <span class="lab"><label for="">手机号码：</label></span>
+          <span class="mod"><input type="text" class="text w200" id="" name="" /></span>
+      </li>
+      <li>
+          <span class="lab"><label for="">固定电话：</label></span>
+          <span class="mod">
+          <input type="text" class="itm w30" id="" name="" value="086" /> -
+          <input type="text" class="itm w50" id="" name="" /> -
+          <input type="text" class="itm w80" id="" name="" />
+          </span>
+      </li>
+      <li>
+          <span class="lab"><label for="">传真：</label></span>
+          <span class="mod"><input type="text" class="text w200" id="" name="" /></span>
+      </li>
+      <li>
+          <span class="lab"><label for="">QQ号码：</label></span>
+          <span class="mod"><input type="text" class="text w200" id="" name="" /></span>
+      </li>
+      <li>
+          <span class="lab"><label for="">电子邮箱：</label></span>
+          <span class="mod"><input type="text" class="text w200" id="" name="" /></span>
+      </li>
+      <li>
+          <span class="lab"><label for="">通讯地址：</label></span>
+          <span class="mod"><input type="text" class="text w200" id="" name="" /></span>
+      </li>
+      <li>
+          <span class="lab"><label for="">邮政编码：</label></span>
+          <span class="mod"><input type="text" class="text w200" id="" name="" /></span>
+      </li>
+      <li>
+          <span class="lab"><label for="">个人签名：</label></span>
+          <span class="mod"><textarea class="w350 h100 mt5" id="" cols="5" rows="5"></textarea></span>
+      </li>
+      <li>
+          <span class="lab">&nbsp;</span>
+          <span class="mod">
+          <input type="submit" class="frmSubmitAlt" id="" name="" value="确定" />
+          <input type="button" class="frmButton" id="" name="" value="取消" />
+          </span>
+      </li>
+      </ul>
+    </form>
+  </div>
+  <div class="wrap-btm clearfix">
+    <div class="wrap-btm-l">&nbsp;</div>
+    <div class="wrap-btm-r">&nbsp;</div>
+  </div>
+</div>
+<!--/.wrapper-->
+
+</body>
+</html>

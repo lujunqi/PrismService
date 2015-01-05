@@ -1,0 +1,15 @@
+CACHE MANIFEST
+# v2013 0124
+/images/s1.jpg
+/images/s2.jpg
+/images/s3.jpg
+/css/global-min.css
+/css/mobile.css
+/css/flexslider.css
+/js/jquery.min.js
+/js/jquery.flexslider-min.js
+
+NETWORK:
+*
+
+FALLBACK:

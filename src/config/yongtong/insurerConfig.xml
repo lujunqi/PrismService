@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd 
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	
+	<bean id="alloc_rule_list" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT A.A_ALLOC_RULE_ID,
+       A.A_MOBILE_ID,
+       A.A_VEHICLE_ID,
+       B.MFRS,
+       B.MODEL,
+       C.MOBILE_NO,
+       C.SVR_SITE
+  FROM A_ALLOC_RULE A, A_VEHICLE B, A_MOBILE C
+ WHERE A.A_MOBILE_ID = C.A_MOBILE_ID
+   AND A.A_VEHICLE_ID = B.A_VEHICLE_ID
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	<bean id="alloc_rule" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT 
+A.A_ALLOC_RULE_ID,
+A.A_MOBILE_ID,
+A.A_VEHICLE_ID
+FROM A_ALLOC_RULE A WHERE A_ALLOC_RULE_ID = ${id}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	<bean id="alloc_rule_delete" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+DELETE FROM A_ALLOC_RULE A WHERE A_ALLOC_RULE_ID = ${id}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	<bean id="alloc_rule_insert" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+INSERT INTO A_ALLOC_RULE
+  (A_ALLOC_RULE_ID, A_MOBILE_ID ,A_VEHICLE_ID)
+VALUES
+  (SEQ_A_VEHICLE.NEXTVAL, ${A_MOBILE_ID},${A_VEHICLE_ID})
+  
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="alloc_rule_update" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+UPDATE A_ALLOC_RULE
+   SET A_MOBILE_ID        = ${A_MOBILE_ID},
+       A_VEHICLE_ID       = ${A_VEHICLE_ID}
+ WHERE A_ALLOC_RULE_ID = ${id}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	
+</beans>

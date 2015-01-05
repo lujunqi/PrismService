@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd 
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context.xsd 
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+	
+	<bean id="insurer_list" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT A_INSURER_ID, SM_NO, NAME, ADDR, TEL1, DESCRIPTION   FROM A_INSURER
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	<bean id="insurer" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT A_INSURER_ID, SM_NO, NAME, ADDR, TEL1, DESCRIPTION   FROM A_INSURER WHERE A_INSURER_ID = ${id}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	<bean id="insurer_delete" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+DELETE FROM A_INSURER WHERE A_INSURER_ID = ${id}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	<bean id="insurer_insert" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+INSERT INTO A_INSURER
+  (A_INSURER_ID, SM_NO, NAME, ADDR, TEL1, DESCRIPTION)
+VALUES
+  (SEQ_A_VEHICLE.NEXTVAL, ${SM_NO<STRING>},${NAME<STRING>}, ${ADDR<STRING>}, ${TEL1<STRING>}, ${DESCRIPTION<STRING>})
+  
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="insurer_update" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+UPDATE A_INSURER
+   SET SM_NO        = ${SM_NO<STRING>},
+       NAME         = ${NAME<STRING>},
+       ADDR         = ${ADDR<STRING>},
+       TEL1         = ${TEL1<STRING>},
+       DESCRIPTION  = ${DESCRIPTION<STRING>}
+ WHERE A_INSURER_ID = ${id}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="${v.toJson()}" />
+			</map>
+		</property>
+	</bean>
+	
+</beans>
