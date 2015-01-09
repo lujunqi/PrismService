@@ -37,6 +37,7 @@
 	
 	<import resource="controlConf.xml"/>
 	
+	
 	<import resource="../yongtong/webConfig.xml"/>
 	
 	<import resource="../yongtong/amobileConfig.xml"/>

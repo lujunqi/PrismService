@@ -16,18 +16,15 @@
 		<servlet-name>PrismAction</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-
+	<!-- 数据库配置的 -->
 	<servlet>
-		<servlet-name>MessageService</servlet-name>
-		<servlet-class>com.yongtong.service.MessageService</servlet-class>
-		<load-on-startup>2</load-on-startup>
+		<servlet-name>PrismAction2</servlet-name>
+		<servlet-class>com.prism.action.PrismActionEx</servlet-class>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
-
 	<servlet-mapping>
-		<servlet-name>MessageService</servlet-name>
-		<url-pattern>/sms</url-pattern>
+		<servlet-name>PrismAction2</servlet-name>
+		<url-pattern>/pa/*</url-pattern>
 	</servlet-mapping>
-
-	
 
 </web-app>

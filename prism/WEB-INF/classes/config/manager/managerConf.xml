@@ -26,12 +26,14 @@ SELECT U.USER_ID, U.USER_NAME
 			</map>
 		</property>
 	</bean>
+<!-- 
 	<bean id="loginAop" class="manager.LoginAop" />
 	<aop:config>
 		<aop:aspect ref="loginAop">
 			<aop:around method="check" pointcut="bean(manager.Login)" />
 		</aop:aspect>
 	</aop:config>
+	 -->
 	<!-- 菜单树 -->
 	<bean id="manager.SysMenu" class="com.prism.service.impl.basic.NormalSltService">
 		<property name="sourceMap">
@@ -56,4 +58,5 @@ CONNECT BY PRIOR M.MENU_ID = M.SUP_MENU_ID
 			</map>
 		</property>
 	</bean>
+	
 </beans>

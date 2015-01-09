@@ -41,7 +41,7 @@ public class NormalSltService extends BaseService {
 			} else if(sourceMap.containsKey("SQL")) {
 				list = selectResult("SQL");
 			}
-			System.out.println(reqMap);
+			System.out.println(sourceMap);
 			String action = (String) reqMap.get("_action");
 			reqMap.put(action, list);
 			reqMap.put("this", list);
