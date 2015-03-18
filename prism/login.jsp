@@ -35,7 +35,7 @@ function submit(){
 	$.post(url,param,function(data){
 		
 		if(data.length>0){
-			window.location.href="index.jsp";
+			window.location.href="index.do";
 		}else{
 			dialog("请输入正确的账号密码");
 		}

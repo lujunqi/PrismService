@@ -52,14 +52,7 @@
 			</map>
 		</property>
 	</bean>
-	<bean id="t01" class="com.prism.service.impl.basic.MybatisSltService">
-		<property name="sourceMap">
-			<map>
-				<entry key="SQL" value="e01.t01" />
-				<entry key="VIEW" value="${v.toJson()}" />
-			</map>
-		</property>
-	</bean>
+
 	<bean id="t01Total" class="com.prism.service.impl.basic.MybatisSltService">
 		<property name="sourceMap">
 			<map>
@@ -131,11 +124,11 @@ $dao.insert("e01.tran02",$req)
 				<entry key="DATASOURCE">
 					<ref bean="t01" />
 				</entry>
-				<entry key="SAVEPATH" value="excel" />
+				
 				<entry key="RULE">
 					<value>
 <![CDATA[
-$excel.add(1,1,"xxx")
+$excel.add(1,1,"UNIT_INSTALLED_TEL")
 ]]>
 					</value>
 				</entry>

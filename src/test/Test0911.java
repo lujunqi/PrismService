@@ -1,50 +1,70 @@
 package test;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.concurrent.Future;
+import java.io.UnsupportedEncodingException;
+import java.security.SecureRandom;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
-import org.apache.tomcat.jdbc.pool.PoolProperties;
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+
+import sun.misc.BASE64Encoder;
 
 public class Test0911 {
-	public static void main(String[] args) throws SQLException {
-		PoolProperties p = new PoolProperties();
-	    p.setUrl("jdbc:oracle:thin:@10.80.1.188:1521:hnaps");
-	    p.setDriverClassName("oracle.jdbc.OracleDriver");
-	    p.setUsername("hncust2");
-	    p.setPassword("hncust2allinpay");
-	    p.setJmxEnabled(true);
-	    p.setTestWhileIdle(false);
-	    p.setTestOnBorrow(true);
-	    p.setValidationQuery("SELECT 1 FROM DUAL");
-	    p.setTestOnReturn(false);
-	    p.setValidationInterval(30000);
-	    p.setTimeBetweenEvictionRunsMillis(30000);
-	    p.setMaxActive(100);
-	    p.setInitialSize(10);
-	    p.setMaxWait(10000);
-	    p.setRemoveAbandonedTimeout(60);
-	    p.setMinEvictableIdleTimeMillis(30000);
-	    p.setMinIdle(10);
-	    p.setLogAbandoned(true);
-	    p.setRemoveAbandoned(true);
-	    p.setJdbcInterceptors("org.apache.tomcat.jdbc.pool.interceptor.ConnectionState;"+
-	      "org.apache.tomcat.jdbc.pool.interceptor.StatementFinalizer");
-	    
+	public static void main(String[] args) throws Exception{
+		String content = "12345678";
+		String password="12345678";
+		byte[] result = encrypt(content.getBytes("utf-8"),password);
+        System.out.println(byte2hex(result));//运行结果是：8fb2a3a086003f1eb1e35469f11f3f372809ef97d8f627e510c25249b6ac0299
+	}
 
-		DataSource datasource = new DataSource();
-
-		Future<Connection> future = datasource.getConnectionAsync();
-		while (!future.isDone()) {
-			System.out
-					.println("Connection is not yet available. Do some background work");
-			try {
-				Thread.sleep(100); // simulate work
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+	// 加密
+	public static String getBase64(String str) {
+		byte[] b = null;
+		String s = null;
+		try {
+			b = str.getBytes("utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
-//		CONN = future.get();
+		if (b != null) {
+			s = new BASE64Encoder().encode(b);
+		}
+		return s;
+	}
+
+	public static String byte2hex(byte[] b) {
+		String hs = "";
+		String stmp = "";
+		for (int n = 0; n < b.length; n++) {
+			stmp = (java.lang.Integer.toHexString(b[n] & 0XFF));
+			if (stmp.length() == 1)
+				hs = hs + "0" + stmp;
+			else
+				hs = hs + stmp;
+			if (n < b.length - 1)
+				hs = hs + "";
+		}
+		return hs.toUpperCase();
+	}
+
+	public static byte[] encrypt(byte[] datasource, String password) {
+		try {
+			SecureRandom random = new SecureRandom();
+			DESKeySpec desKey = new DESKeySpec(password.getBytes());
+			// 创建一个密匙工厂，然后用它把DESKeySpec转换成
+			SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+			SecretKey securekey = keyFactory.generateSecret(desKey);
+			// Cipher对象实际完成加密操作
+			Cipher cipher = Cipher.getInstance("DES");
+			// 用密匙初始化Cipher对象
+			cipher.init(Cipher.ENCRYPT_MODE, securekey, random);
+			// 现在，获取数据并加密
+			// 正式执行加密操作
+			return cipher.doFinal(datasource);
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

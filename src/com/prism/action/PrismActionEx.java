@@ -1,23 +1,20 @@
 package com.prism.action;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Future;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.prism.service.Service;
+import com.prism.source.SourceMap;
 
 public class PrismActionEx extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -36,13 +33,11 @@ public class PrismActionEx extends HttpServlet {
 			res.setContentType("text/html;charset=UTF-8");
 			String action = getAction(req);
 			String exName = getExtendName(req);
-//			System.out.println(action+"=="+exName);
 			Service vm = (Service) context.getBean(exName);
-			Map<String,Object> sourceMap = vm.getSourceMap();
-			sourceMap.put("SQL", "select Commercial_Id,unit_name from COMMERCIAL_INFO");
+			SourceMap smap = (SourceMap) vm.getSourceMap();
+			smap.setKey(action,context.getBean("DBConnection"));
+			vm.setSourceMap(smap);
 			Map<String, Object> reqMap = new HashMap<String, Object>();
-
-			@SuppressWarnings("unchecked")
 			Enumeration<String> en = req.getParameterNames();
 			while (en.hasMoreElements()) {
 				String name = en.nextElement();
@@ -50,19 +45,17 @@ public class PrismActionEx extends HttpServlet {
 					reqMap.put(name, req.getParameter(name));
 				}
 			}
-			
 			reqMap.put("_action", action);
 			req.setAttribute("reqMap", reqMap);
 			req.setAttribute("context", context);
 			req.setAttribute("DBConnection", context.getBean("DBConnection"));
 			vm.setRequest(req);
 			vm.setResponse(res);
-			System.out.println(vm.getSourceMap());
 			vm.service();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			req.getRequestDispatcher("/error.jsp")
-			.forward(req, res);
+			req.getRequestDispatcher("/error.jsp").forward(req, res);
 		}
 	}
 
@@ -70,7 +63,6 @@ public class PrismActionEx extends HttpServlet {
 		try {
 			String relativeuri = req.getRequestURI().replaceFirst(
 					req.getContextPath(), "");
-			System.out.println(relativeuri+"===");
 			relativeuri = relativeuri.replaceAll("/pa/", "");
 			int exLen = relativeuri.lastIndexOf(".");
 			StringBuffer sb = new StringBuffer(relativeuri);
@@ -80,20 +72,20 @@ public class PrismActionEx extends HttpServlet {
 			return "error";
 		}
 	}
+
 	private String getExtendName(HttpServletRequest req) {
 		try {
 			String relativeuri = req.getRequestURI().replaceFirst(
 					req.getContextPath(), "");
-//			relativeuri = relativeuri.replaceAll("/", "");
+			// relativeuri = relativeuri.replaceAll("/", "");
 			int exLen = relativeuri.lastIndexOf(".");
 			StringBuffer sb = new StringBuffer(relativeuri);
-			return sb.substring(exLen+1);
+			return sb.substring(exLen + 1);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
 	}
-	
 
 	public void destroy() {
 		super.destroy();

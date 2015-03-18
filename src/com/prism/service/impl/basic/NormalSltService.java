@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,15 +23,15 @@ import javax.servlet.ServletException;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
+import com.prism.common.ExcelCommon;
 import com.prism.common.JsonUtil;
 import com.prism.common.VMResponse;
 
 public class NormalSltService extends BaseService {
 	private VelocityContext vc = new VelocityContext();
 
-	public void service()
-			throws ServletException, IOException {
-		
+	public void service() throws ServletException, IOException {
+
 		super.service();
 		PrintWriter out = getResponse().getWriter();
 		try {
@@ -38,10 +39,9 @@ public class NormalSltService extends BaseService {
 			if (sourceMap.containsKey("DSQL")) {
 				convertSql("DSQL", "NSQL");
 				list = selectResult("NSQL");
-			} else if(sourceMap.containsKey("SQL")) {
+			} else if (sourceMap.containsKey("SQL")) {
 				list = selectResult("SQL");
 			}
-			System.out.println(sourceMap);
 			String action = (String) reqMap.get("_action");
 			reqMap.put(action, list);
 			reqMap.put("this", list);
@@ -49,28 +49,44 @@ public class NormalSltService extends BaseService {
 			getRequest().setAttribute(action, list);
 			vc.put(action, list);
 			vc.put("this", list);
-			
+
 			// 视图模板
 			if (sourceMap.containsKey("VIEW")) {
-				VMResponse  vm = new VMResponse();
+				VMResponse vm = new VMResponse();
 				vm.setReqMap(reqMap);
 				vc.put("v", vm);
 				String content = getResultfromContent("VIEW");
 				out.print(content);
 			}
-			
+			// EXCEL输出
+			if (sourceMap.containsKey("EXCEL")) {
+				// String modelPath = (String) sourceMap.get("ModelPath");
+
+				Date date = new Date();
+				String fileName = date.getTime() + ".xls";
+				getResponse().setHeader("Content-disposition",
+						"attachment; filename=" + fileName);// 设定输出文件头
+				getResponse().setContentType("application/msexcel");// 定义输出类型
+				System.out.println(list);
+				ExcelCommon excel = new ExcelCommon();
+				String rule = "";
+				excel.List2Excel(reqMap, null, rule,  getResponse().getOutputStream());
+			}
+
 			// FORWARD 页面跳转
 			if (sourceMap.containsKey("FORWARD")) {
-				getRequest().setAttribute("TEMPLATE", sourceMap.get("TEMPLATE"));
-				getRequest().getRequestDispatcher((String) sourceMap.get("FORWARD"))
-						.forward(getRequest(), getResponse());
+				getRequest()
+						.setAttribute("TEMPLATE", sourceMap.get("TEMPLATE"));
+				getRequest().getRequestDispatcher(
+						(String) sourceMap.get("FORWARD")).forward(
+						getRequest(), getResponse());
 			}
 			// REDIRECT 页面重定向
 			if (sourceMap.containsKey("REDIRECT")) {
 				getResponse().sendRedirect((String) sourceMap.get("REDIRECT"));
 			}
 		} catch (Exception e) {
-			Map<String,Object> m = new HashMap<String,Object>();
+			Map<String, Object> m = new HashMap<String, Object>();
 			m.put("code", -1);
 			m.put("info", e.getMessage());
 			JsonUtil ju = new JsonUtil();

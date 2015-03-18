@@ -228,13 +228,13 @@ public class Test3DES {
 		String szSrc = "1";
 
 		System.out.println("加密前的字符串:" + szSrc);
-		
+
 		byte[] encoded = encryptMode(keyBytes, szSrc.getBytes());
-		System.out.println("============"+encoded.length);
+		System.out.println("============" + encoded.length);
 		System.out.println(byte2HexStr(encoded));
 
 		byte[] srcBytes = decryptMode(keyBytes, encoded);
-		
+
 		System.out.println("解密后的字符串:" + new String(srcBytes));
 
 		// ------------------------------------------------------------

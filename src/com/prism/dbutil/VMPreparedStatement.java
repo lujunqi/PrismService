@@ -322,6 +322,5 @@ public class VMPreparedStatement implements XStatement {
 		Object val = vm.put(param, map.get(rf.getClassName()));
 		System.out.println(val + "+====" + rf.getClassName() + "++" + type
 				+ "==");
-
 	}
 }

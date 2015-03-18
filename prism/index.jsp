@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*,java.net.*" pageEncoding="UTF-8"%>
+<%@page import="manager.ManagerMenu"%>
 <%
 Object user_name = session.getAttribute("USER_NAME");
 Object user_id = session.getAttribute("USER_ID");
@@ -10,7 +11,7 @@ if(user_id==null){
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>事故跟单系统</title>
+<title></title>
 <meta charset="utf-8">
 <meta name="keywords" content=".........">
 <meta name="description" content=".........">
@@ -90,7 +91,7 @@ function getPages(){
   <div id="header">
     <div class="inner">
     <h1 id="site-name">事故跟单系统</h1>
-    <div id="site-logo" class="fl"><a href="#"><img class="pngfix" src="images/logo.png" alt="快乐冲浪内容管理系统" width="579" height="80" /></a></div>
+    <div id="site-logo" class="fl"><a href="#"><img class="pngfix" src="images/logo.png" alt="" width="579" height="80" /></a></div>
     <div id="logout"><!--a class="pngfix" href="#">退出登录</a--></div>
     <ul id="site-nav" class="clearfix">
       <li class="user"><span><%=user_name%></span>欢迎您 </li>
@@ -111,28 +112,12 @@ function getPages(){
     <!--/.content-->
     
     <div class="sidebar">
-      <ul class="sideNav">
-        <li class="major">
-          <h2 class="subtit"><a class="" href="#" target="main"><span class="">事故跟单</span></a></h2>
-          <ul class="sublist" >
-            <li><a target="main" href="page/vehicle_list.jsp">车型信息</a></li>
-            <li><a target="main"  href="page/mobile_list.jsp">手机卡信息</a></li>
-            <li><a target="main" href="page/insurer_list.jsp">保险公司信息</a></li>
-            <li><a target="main" href="page/alloc_rule_list.jsp">自动派单</a></li>
-            <li><a target="main" href="page/task1_list.jsp">手工派单</a></li>
-          </ul>
-        </li>
-
-        <li class="major">
-          <h2 class="subtit"><a class="" href="#"><span class="">系统管理</span></a></h2>
-          <ul class="sublist" >
-            <li><a class="" href="javascript:getPages();"><span class="">用户管理</span></a></li>
-          </ul>
-        </li>
-        <li class="major">
-          <h2 class="subtit"><a class="" href="#"><span class="">查询统计</span></a></h2>
-        </li>
-      </ul>
+		<ul class="sideNav">
+		<%
+		ManagerMenu mm = new ManagerMenu();
+		out.println(mm.service(request,response));
+		%>
+		</ul>
     </div>
     <!--/.sidebar -->
     

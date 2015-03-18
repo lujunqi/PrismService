@@ -12,11 +12,11 @@
 	<!-- 数据库连接 提供三种连接数据库的方式 三选一-->
 	<bean id="DBConnection" class="com.prism.dbutil.DBConnection" scope="prototype">
 		<!-- JNDI方式连接数据库 -->
-		<!--   
-		 <property name="JNDI" value="jdbc/MyDB" />
-		-->
+		   
+		 <property name="JNDI" value="jdbc/connectDB" />
+		
 		<!-- JDBC方式连接数据库 -->
-		  
+		<!--   
 		<property name="JDBC">
 			<map>
 				<entry key="username" value="hncust2" />
@@ -26,7 +26,7 @@
 				<entry key="driverClassName" value="oracle.jdbc.OracleDriver"/>				
 			</map>
 		</property>
-		 
+		  -->
 		 <!-- 自定的数据库连接 -->
 		 <!-- 
 		 <property name="CONN">
@@ -36,15 +36,6 @@
 	</bean>
 	
 	<import resource="controlConf.xml"/>
-	
-	
-	<import resource="../yongtong/webConfig.xml"/>
-	
-	<import resource="../yongtong/amobileConfig.xml"/>
-	<import resource="../yongtong/insurerConfig.xml"/>
-	<import resource="../yongtong/interfaceConfig.xml"/>
-	<import resource="../yongtong/alloc_ruleConfig.xml"/>
-	<import resource="../yongtong/task1Config.xml"/>
-	<import resource="../yongtong/analysisSMConfig.xml"/>
-	
+	<import resource="serviceConf.xml"/>
+	<import resource="../manager/managerConf.xml"/>
 </beans>
