@@ -88,9 +88,9 @@ public class BaseService implements Service {
 		String sql = (String) sourceMap.get(key);
 		DBCommand cmd = new DBCommand(dbConn);
 		try {
-			if (reqMap.containsKey("@minnum") && reqMap.containsKey("@maxnum")) {
-				int minnum = Integer.parseInt(reqMap.get("@minnum") + "");
-				int maxnum = Integer.parseInt(reqMap.get("@maxnum") + "");
+			if (reqMap.containsKey("prism_begin_number") && reqMap.containsKey("prism_end_number")) {
+				int minnum = Integer.parseInt(reqMap.get("prism_begin_number") + "");
+				int maxnum = Integer.parseInt(reqMap.get("prism_end_number") + "");
 
 				return cmd.executeSelect(sql, reqMap, minnum, maxnum);
 			} else {

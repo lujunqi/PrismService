@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd 
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd 
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	<!-- 中间表 -->
+	<bean id="tat_list" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="DSQL">
+					<value>
+<![CDATA[
+SELECT T.TEMINAL_INFO_ID,T.APPPAY_ID,T.APPTYPE,TERM_ID1,TERM_ID2
+  FROM HNCUST2.TERM_APP_TABLE T
+ WHERE 1=1
+#if(!$v.isEmpty("TERM_ID1"))
+   AND TRIM(T.TERM_ID1) = TRIM(${v.set("TERM_ID1","STRING")})
+#end
+#if(!$v.isEmpty("TERM_ID2"))
+   AND TRIM(T.TERM_ID2) = TRIM(${v.set("TERM_ID2","STRING")})
+#end
+   AND ROWNUM < 20
+ORDER BY T.BIND_DATE DESC
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="$v.toJson()" />
+			</map>
+		</property>
+	</bean>
+	<!-- 初始化数据 -->
+	<bean id="tat_clean" class="com.prism.service.impl.basic.NormalCallService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[{call hncust2.pkg_yunwei.pro_clean(${APPPAY_ID<STRING>},${TEMINAL_INFO_ID<STRING>})}]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="$v.toJson()" />
+			</map>
+		</property>
+	</bean>	
+</beans>

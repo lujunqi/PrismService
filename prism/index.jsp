@@ -90,8 +90,8 @@ function getPages(){
 <div class="container">
   <div id="header">
     <div class="inner">
-    <h1 id="site-name">事故跟单系统</h1>
-    <div id="site-logo" class="fl"><a href="#"><img class="pngfix" src="images/logo.png" alt="" width="579" height="80" /></a></div>
+    <h1 id="site-name"></h1>
+    <div id="site-logo" class="fl"><a href="#"></a></div>
     <div id="logout"><!--a class="pngfix" href="#">退出登录</a--></div>
     <ul id="site-nav" class="clearfix">
       <li class="user"><span><%=user_name%></span>欢迎您 </li>

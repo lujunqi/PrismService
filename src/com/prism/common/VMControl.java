@@ -56,22 +56,44 @@ public class VMControl {
 		}
 		return result;
 	}
-	public String win(String title,String name,String content){
+
+	public String win(String title, String name, String content) {
 		String unit = m_unit.get("EL:WIN");
 		this.title = title;
 		return String.format(unit, name, setNull(content));
 	}
-	
+
 	public String text(String title, String name) {
-		return text(title, name, "");
+		return text(title, name, null);
 	}
 
-	public String text(String title, String name, String value) {
+	public String text(String title, String name, Map<String, String> map) {
 		String unit = m_unit.get("EL:TEXT");
 		this.title = title;
-		return String.format(unit, name, setNull(value));
+		String other = "";	
+		if (map != null) {
+			for (Map.Entry<String, String> en : map.entrySet()) {
+				other += en.getKey() + "=\"" + en.getValue() + "\" ";
+			}
+		}
+		return String.format(unit, name, other);
 	}
 
+	public String pwd(String title, String name) {
+		return pwd(title, name, null);
+	}
+
+	public String pwd(String title, String name, Map<String, String> map) {
+		String unit = m_unit.get("EL:PWD");
+		this.title = title;
+		String other = "";	
+		if (map != null) {
+			for (Map.Entry<String, String> en : map.entrySet()) {
+				other += en.getKey() + "=\"" + en.getValue() + "\" ";
+			}
+		}
+		return String.format(unit, name, other);
+	}
 	public String hidden(String name, String value) {
 		String unit = m_unit.get("EL:HIDDEN");
 		return String.format(unit, name, setNull(value));
@@ -90,7 +112,7 @@ public class VMControl {
 		Set<String> s = new HashSet<String>();
 		if (c != null) {
 			int i = 0;
-			for(String x:c){
+			for (String x : c) {
 				s.add(c[i]);
 				i++;
 			}
@@ -102,7 +124,7 @@ public class VMControl {
 			if (tmps.containsKey("C")) {
 				checked = "checked=\"checked\"";
 			}
-			if(s.contains(value)){
+			if (s.contains(value)) {
 				checked = "checked=\"checked\"";
 			}
 			html += String.format(unit, name, value, des, setNull(checked));
@@ -182,9 +204,9 @@ public class VMControl {
 		String html = "";
 		if ("".equals(title)) {
 			html = unit;
-//			System.out.println(html + "============");
 		} else {
-			html = String.format("<li><label>%1$s:</label>%2$s</li>", title,
+			html = String.format(
+					"<span class=\"mr5\"><label>%1$s</label> %2$s </span>", title,
 					unit);
 		}
 		return html;

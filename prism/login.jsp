@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>事故跟单系统</title>
+<title></title>
 <meta charset="utf-8">
 <meta name="keywords" content=".........">
 <meta name="description" content=".........">

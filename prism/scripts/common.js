@@ -101,7 +101,7 @@ $(document).ready(function(e) {
 	initSide();
 	switchBar();
 	checkAll();
-	initComTablist();
+	
 });
 
 // checkAllBox

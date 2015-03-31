@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans   
-                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
-                        http://www.springframework.org/schema/aop   
-                        http://www.springsource.org/schema/aop/spring-aop-3.0.xsd  
-                        http://www.springframework.org/schema/tx  
-                            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:aop="http://www.springframework.org/schema/aop" 
+xmlns:tx="http://www.springframework.org/schema/tx" 
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd 
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd 
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+          
 	<!-- 登录检测 -->
 	<bean id="login" class="com.prism.service.impl.basic.NormalSltService">
 		<property name="sourceMap">
@@ -34,6 +33,100 @@ SELECT U.USER_ID, U.USER_NAME
 		</aop:aspect>
 	</aop:config>
 
+	<!-- 用户列表 -->
+	<bean id="user_list" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT USER_ID,USER_NAME,LOGIN_NAME FROM TB_USER
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="$v.toJson()" />
+			</map>
+		</property>
+	</bean>
+	<!-- 新增用户 -->
+	<bean id="user_add" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+INSERT INTO TB_USER(USER_ID,USER_NAME,LOGIN_NAME,LOGIN_PWD,USER_MOBILE)
+VALUES(SEQ_TB_USER.NEXTVAL,${USER_NAME<STRING>},${LOGIN_NAME<STRING>},${LOGIN_PWD<STRING>},${USER_MOBILE<STRING>})
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="$v.toJson()" />
+			</map>
+		</property>
+	</bean>
+	<!-- 用户信息 -->
+	<bean id="user_info" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT USER_ID,USER_NAME,LOGIN_NAME,USER_MOBILE FROM TB_USER WHERE USER_ID = ${USER_ID<INT>}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="$v.toJson()" />
+			</map>
+		</property>
+	</bean>
+	<!-- 用户信息修改 -->
+	<bean id="user_upt" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+UPDATE TB_USER SET USER_NAME=${USER_NAME<STRING>},USER_MOBILE=${USER_NAME<STRING>} WHERE USER_ID = ${USER_ID<INT>}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="$v.toJson()" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- 用户账号验证 -->
+	<bean id="user_check" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT USER_ID,USER_NAME,LOGIN_NAME,USER_MOBILE FROM TB_USER WHERE LOGIN_NAME = ${LOGIN_NAME<STRING>}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="$v.toJson()" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- 用户列表合计 -->
+	<bean id="user_list_total" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+SELECT COUNT(1) TOTAL FROM TB_USER
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="$v.toJson()" />
+			</map>
+		</property>
+	</bean>
+	
 	<!-- 菜单树 -->
 	<bean id="index" class="com.prism.service.impl.basic.NormalSltService">
 		<property name="sourceMap">

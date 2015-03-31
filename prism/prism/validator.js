@@ -29,7 +29,7 @@ function ajax(el,value){//ajax验证
 		cache:false,
 		type: "post",
 		success:function(data){
-			if(data["status"]=="y"){
+			if(data.length==0){
 				result = true;
 			}
 		}

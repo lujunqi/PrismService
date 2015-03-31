@@ -38,4 +38,9 @@
 	<import resource="controlConf.xml"/>
 	<import resource="serviceConf.xml"/>
 	<import resource="../manager/managerConf.xml"/>
+	<import resource="../manager/managerHTML.xml"/>
+	
+	<import resource="../hntl/yunweiHTML.xml"/>
+	<import resource="../hntl/yunweiConf.xml"/>
+	
 </beans>

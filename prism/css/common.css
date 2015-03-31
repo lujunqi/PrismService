@@ -915,3 +915,19 @@ div.yui3-g {
 .welcome .short-cut p img {
 	display:block;
 }
+.page a {
+	border: #CCC 1px solid;
+	width: auto;
+	padding:0 10px 0 10px;
+	height: 30px;
+	line-height: 30px;
+	display: block;
+	text-align: center;
+	float: left;
+	margin: 1px;
+	color: #000;
+}
+.page a:hover {
+	color:#F00;
+	cursor:pointer;
+}
