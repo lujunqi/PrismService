@@ -30,6 +30,35 @@ ORDER BY T.BIND_DATE DESC
 			</map>
 		</property>
 	</bean>
+	<!-- 银联商户 -->
+	<bean id="upay_list" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<map>
+				<entry key="DSQL">
+					<value>
+<![CDATA[
+SELECT TT.UNIT_NAME FROM (
+SELECT (SELECT TEMP.TERM_ID3
+          FROM HNCUST2.TERM_APP_TABLE TEMP
+         WHERE TEMP.APPPAY_ID = A.APPPAY_ID
+           AND TEMP.STATUS = 1
+         GROUP BY TEMP.TERM_ID3) AS TERM_ID3,
+       C.UNIT_NAME
+  FROM HNCUST2.APPPAY_105 A, HNCUST2.COMMERCIAL_INFO C, HNCUST2.WS_AREA W, HNCUST2.BANK_INFO B
+ WHERE TO_CHAR(APPR_DATE, 'yyyy-MM-dd') = TO_CHAR(SYSDATE, 'yyyy-MM-dd')
+   AND APPR_STATUS = 2
+   AND A.COMMERCIAL_ID = C.COMMERCIAL_ID
+   AND W.AREAID = C.UNIT_AREA
+   AND B.BANK_CODE = A.ACCOUNT_BANK
+   AND (FEE_CHAN = 1 OR FEE_CHAN IS NULL)
+) TT WHERE TT.TERM_ID3 IS NULL
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="$v.toJson()" />
+			</map>
+		</property>
+	</bean>
 	<!-- 初始化数据 -->
 	<bean id="tat_clean" class="com.prism.service.impl.basic.NormalCallService">
 		<property name="sourceMap">

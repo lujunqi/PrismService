@@ -4,13 +4,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
-
-import org.springframework.context.ApplicationContext;
 
 import com.prism.common.JsonUtil;
 
@@ -28,9 +25,6 @@ public class NormalHTMLService extends BaseService{
 				getRequest().setAttribute(entry.getKey(), entry.getValue());
 			}
 
-
-			@SuppressWarnings("unchecked")
-			List<String> list = (List<String>)getRequest().getAttribute("QUERY");
 			getRequest().setAttribute("sourceMap", sourceMap);
 			if (sourceMap.containsKey("TEMPLATE")){
 				getRequest().getRequestDispatcher((String) sourceMap.get("TEMPLATE")).forward(getRequest(), getResponse());

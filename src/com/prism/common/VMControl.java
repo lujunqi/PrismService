@@ -27,7 +27,56 @@ public class VMControl {
 	private HttpServletRequest req;
 	private HttpServletResponse res;
 	private ApplicationContext context;
-
+	private List<Object[]> my_enum = new ArrayList<Object[]>();
+	
+	@SuppressWarnings("unchecked")
+	public List<Object[]> getMapping(){
+		if(req.getAttribute("MAPPING")!=null){
+			my_enum = new ArrayList<Object[]>();
+			if(req.getAttribute("MAPPING") instanceof String){
+				String mapping = (String)req.getAttribute("MAPPING");
+				vc.put("m", this);
+				try {
+					getResultfromContent(mapping,vc);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if(req.getAttribute("MAPPING") instanceof List){
+				my_enum = (List<Object[]>)req.getAttribute("MAPPING");
+			}
+		}
+		return my_enum;
+	}
+	public void add(String key,String val){
+		my_enum.add(new Object[]{key,val});
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<String> getQuery(){
+		List<String> query = new ArrayList<String>();
+		if(req.getAttribute("QUERY")!=null){
+			if(req.getAttribute("QUERY") instanceof String){
+				new VelocityContext();
+				String s = (String)req.getAttribute("QUERY");
+				vc.put("el", this);
+				vc.put("q", query);
+				try {
+					getResultfromContent(s,vc);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			if(req.getAttribute("QUERY") instanceof List){
+				query = (List<String>)req.getAttribute("QUERY");
+			}
+		}
+		
+		
+		return query;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public VMControl(HttpServletRequest req, HttpServletResponse res) {
 		this.req = req;
@@ -39,7 +88,7 @@ public class VMControl {
 
 	private VelocityContext vc = new VelocityContext();
 	private String title = "";
-
+	
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> getContext(String name) {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();

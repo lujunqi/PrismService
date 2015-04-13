@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=utf-8" language="java" import="java.util.*" errorPage="" %>
 <%@page import="com.prism.common.VMControl"%>
+<%@page import="com.prism.common.JsonUtil"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -8,11 +10,13 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 String viewName = (String)request.getAttribute("VIEWNAME");
-List<Object[]> my_enum = (List<Object[]>)request.getAttribute("MAPPING");
+
+List<Object[]> my_enum = new com.prism.common.VMControl(request,response).getMapping();
+
 Object dataUrl = request.getAttribute("DATAURL");
 Object dataUrlTotal = request.getAttribute("DATAURLTOTAL");
+List<String> query = new com.prism.common.VMControl(request,response).getQuery();
 
-List<String> query = (List<String>)request.getAttribute("QUERY");
 /*************************************/
 
 %>
@@ -97,10 +101,13 @@ function win($content,$title,$url,func_init){
 					data = $.parseJSON(data);
 					if(data.code !='0'){
 						queryInfo();
+					}else{
+						return false;
 					}
 				});
 			}		
-			
+		},
+		cancel:function(){
 		}
 	});
 }
@@ -124,9 +131,10 @@ for(int i=0;i<query.size();i++){
 	VMControl vc = new VMControl(request,response);
 	out.println(vc.getHtml(query.get(i)));
 	if(i+1 == query.size()){
-		out.println("<span class=\"mr5\"><a class=\"btn\" href=\"javascript:queryInfo()\">查询</a></span>");
+		
 	}
 }
+out.println("<span class=\"mr5\"><a class=\"btn\" href=\"javascript:queryInfo()\">查询</a></span>");
 //新增
 if(request.getAttribute("BUTTON")!=null){
 	List l = (List)request.getAttribute("BUTTON");
@@ -151,9 +159,9 @@ if(request.getAttribute("BUTTON")!=null){
       </thead> 
       <tbody id="list" class="comTabList" prism="dataGrid">
         <tr>
-          <%for(int i=0;i<my_enum.size();i++){
-			out.println("<td>"+my_enum.get(i)[1]+"</td>");
-		  }%>
+<%for(int i=0;i<my_enum.size();i++){
+	out.println("<td>"+my_enum.get(i)[1]+"</td>");
+}%>
         </tr>
 	 </tbody>
      <tfoot>

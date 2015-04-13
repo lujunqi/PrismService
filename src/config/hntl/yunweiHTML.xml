@@ -11,7 +11,7 @@
 	<bean id="tat_view" class="com.prism.service.impl.basic.NormalHTMLService">
 		<property name="sourceMap">
 			<map>
-				<entry key="VIEWNAME" value="查询用户" />
+				<entry key="VIEWNAME" value="商户信息" />
 				<entry key="MAPPING">
 					<list>
 						<array>
@@ -52,6 +52,24 @@
 				
 				<entry key="JS_SRC" value="jsp/hntl/tat_list.js" /><!-- js -->
 				
+				<entry key="TEMPLATE" value="/page/model_list.jsp" /><!-- 模板 -->
+			</map>
+		</property>
+	</bean>
+	<bean id="upay_view" class="com.prism.service.impl.basic.NormalHTMLService">
+		<property name="sourceMap">
+			<map>
+				<entry key="VIEWNAME" value="银联查询" />
+				<entry key="MAPPING">
+					<list>
+						<array>
+							<value>商户名称</value>
+							<value>#@UNIT_NAME#</value>
+						</array>
+					</list>
+				</entry>
+
+				<entry key="DATAURL" value="upay_list.do" /><!-- 明细 -->
 				<entry key="TEMPLATE" value="/page/model_list.jsp" /><!-- 模板 -->
 			</map>
 		</property>

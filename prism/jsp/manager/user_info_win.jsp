@@ -31,6 +31,7 @@ function init(){
 				$("input[name='LOGIN_NAME']").val(data[0]["LOGIN_NAME"]);
 				$("input[name='LOGIN_NAME']").attr("disabled","disabled");
 				$("input[name='USER_NAME']").val(data[0]["USER_NAME"]);
+				$("input[name='USER_MOBILE']").val(data[0]["USER_MOBILE"]);
 				
 				$("input[name='USER_PWD']").parent().parent().hide();
 				$("input[name='USER_REPWD']").parent().parent().hide();
@@ -41,7 +42,7 @@ function init(){
 		},"json");
 	}
 }
-
+/*必有*/
 function validator(){
 	var fv = $("#form").formValidator();
 	if(fv.length>0){
@@ -102,6 +103,12 @@ em{
           </span> <span class="mod">
           <input name="USER_NAME" type="text" class="text w140" id="" />
           </span> </li>
+		<li> <span class="lab">
+          <label for="">手　机：</label>
+          </span> <span class="mod">
+          <input name="USER_MOBILE" type="text" class="text w140" id="" />
+          </span> </li>
+		
       </ul>
     </form>
   </div>

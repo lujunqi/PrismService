@@ -63,11 +63,9 @@ function dialog(v_content){
 
 <div class="topimg">
 <div id="login">
-
+<form onSubmit="return false;">
     <div class="form" id="myForm" >
-    
         <ul>
-        
         <li><label>用户名：</label><span class="inputWrap"><span class="fix">
         <input class="txt"  type="text" id="USER_ACC" name="USER_ACC" />
         </span></span></li>
@@ -84,8 +82,8 @@ function dialog(v_content){
         <!--<a href="#" class="getCode">忘记密码?</a>-->
         </li>
         </ul>
-    
     </div>    
+</form>
 </div>
 </div>
 

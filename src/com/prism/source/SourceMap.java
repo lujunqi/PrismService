@@ -12,7 +12,7 @@ public class SourceMap extends HashMap<String, Object> {
 	private static final long serialVersionUID = 1L;
 
 	public void setKey(String action, Object dbConn) {
-		String sql = "SELECT * FROM TEST150127 WHERE ACTION=${ACTION<STRING>}";
+		String sql = "SELECT * FROM SM_BEAN WHERE ACTION=${ACTION<STRING>}";
 		DBCommand cmd = new DBCommand(dbConn);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ACTION", action);
