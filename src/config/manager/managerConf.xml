@@ -26,10 +26,12 @@ SELECT U.USER_ID, U.USER_NAME,U.USER_MOBILE
 		</property>
 	</bean>
 
-	<bean id="loginAop" class="manager.LoginAop" />
+	<bean id="ManagerAop" class="manager.ManagerAop" />
 	<aop:config>
-		<aop:aspect ref="loginAop">
-			<aop:around method="check" pointcut="bean(login)" />
+		<aop:aspect ref="ManagerAop">
+			<aop:around method="loginCheck" pointcut="bean(login)" />
+			<aop:around method="logs" pointcut="execution(* com.prism.service.impl.basic.*.service())" />
+			
 		</aop:aspect>
 	</aop:config>
 
@@ -37,10 +39,18 @@ SELECT U.USER_ID, U.USER_NAME,U.USER_MOBILE
 	<bean id="user_list" class="com.prism.service.impl.basic.NormalSltService">
 		<property name="sourceMap">
 			<map>
-				<entry key="SQL">
+				<entry key="DSQL">
 					<value>
 <![CDATA[
 SELECT USER_ID,USER_NAME,LOGIN_NAME,USER_MOBILE FROM SM_USER
+WHERE 1=1
+#if(!$v.isEmpty("USER_NAME"))
+   AND TRIM(T.USER_NAME) = TRIM(${v.set("USER_NAME","STRING")})
+#end
+#if(!$v.isEmpty("LOGIN_NAME"))
+   AND TRIM(T.LOGIN_NAME) = TRIM(${v.set("LOGIN_NAME","STRING")})
+#end
+
 ]]>
 					</value>
 				</entry>

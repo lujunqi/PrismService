@@ -7,7 +7,7 @@ import java.util.Map;
 import com.prism.dbutil.DBCommand;
 import com.prism.exception.DAOException;
 
-public class SourceMap extends HashMap<String, Object> {
+public class SourceMap extends HashMap<String, Object> implements Map<String, Object>{
 
 	private static final long serialVersionUID = 1L;
 
@@ -23,9 +23,12 @@ public class SourceMap extends HashMap<String, Object> {
 				Object val2 = map2.get("VAL");
 				this.put(key2, val2);
 			}
+			
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}
 	}
+
+
 
 }

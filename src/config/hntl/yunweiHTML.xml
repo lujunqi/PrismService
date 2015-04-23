@@ -34,7 +34,7 @@
 							<value>机具编号</value>
 							<value>#@TERM_ID2#</value>
 						</array>
-						
+
 						<array>
 							<value>操作</value>
 							<value>#@func:func_oper#</value>
@@ -43,15 +43,17 @@
 					</list>
 				</entry>
 				<entry key="QUERY">
-					<list>
-						<value>$el.text("商户编号","TERM_ID1")</value>
-						<value>$el.text("终端编号","TERM_ID2")</value>
-					</list>
+					<value>
+						$q.add($el.text("商户编号","TERM_ID1"));
+						$q.add($el.text("终端编号","TERM_ID2"));
+
+					</value>
+
 				</entry>
 				<entry key="DATAURL" value="tat_list.do" /><!-- 明细 -->
-				
+
 				<entry key="JS_SRC" value="jsp/hntl/tat_list.js" /><!-- js -->
-				
+
 				<entry key="TEMPLATE" value="/page/model_list.jsp" /><!-- 模板 -->
 			</map>
 		</property>

@@ -1,19 +1,15 @@
 package com.prism.action;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Future;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -27,9 +23,7 @@ public class PrismAction extends HttpServlet {
 	public void init() throws ServletException {
 		System.out.println("httpServlet正在加载....");
 		context = new ClassPathXmlApplicationContext(xmls);
-		
-		
-		
+
 	}
 
 	public void service(HttpServletRequest req, HttpServletResponse res)
@@ -39,10 +33,8 @@ public class PrismAction extends HttpServlet {
 			res.setContentType("text/html;charset=UTF-8");
 			String action = getAction(req);
 			Service vm = (Service) context.getBean(action);
-			
 			Map<String, Object> reqMap = new HashMap<String, Object>();
 
-			@SuppressWarnings("unchecked")
 			Enumeration<String> en = req.getParameterNames();
 			while (en.hasMoreElements()) {
 				String name = en.nextElement();
@@ -50,19 +42,18 @@ public class PrismAction extends HttpServlet {
 					reqMap.put(name, req.getParameter(name));
 				}
 			}
-			
+
 			reqMap.put("_action", action);
 			req.setAttribute("reqMap", reqMap);
 			req.setAttribute("context", context);
 			req.setAttribute("DBConnection", context.getBean("DBConnection"));
-//			System.out.println(reqMap);
+			// System.out.println(reqMap);
 			vm.setRequest(req);
 			vm.setResponse(res);
 			vm.service();
 		} catch (Exception e) {
 			e.printStackTrace();
-			req.getRequestDispatcher("error.jsp")
-			.forward(req, res);
+			req.getRequestDispatcher("error.jsp").forward(req, res);
 		}
 	}
 
@@ -70,7 +61,7 @@ public class PrismAction extends HttpServlet {
 		try {
 			String relativeuri = req.getRequestURI().replaceFirst(
 					req.getContextPath(), "");
-			
+
 			relativeuri = relativeuri.replaceAll("/", "");
 			int exLen = relativeuri.lastIndexOf(".");
 			StringBuffer sb = new StringBuffer(relativeuri);
@@ -80,21 +71,21 @@ public class PrismAction extends HttpServlet {
 			return "error";
 		}
 	}
-	private String getExtendName(HttpServletRequest req) {
-		try {
-			String relativeuri = req.getRequestURI().replaceFirst(
-					req.getContextPath(), "");
-			
-			relativeuri = relativeuri.replaceAll("/", "");
-			int exLen = relativeuri.lastIndexOf(".");
-			StringBuffer sb = new StringBuffer(relativeuri);
-			return sb.substring(exLen);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-	}
-	
+
+//	private String getExtendName(HttpServletRequest req) {
+//		try {
+//			String relativeuri = req.getRequestURI().replaceFirst(
+//					req.getContextPath(), "");
+//
+//			relativeuri = relativeuri.replaceAll("/", "");
+//			int exLen = relativeuri.lastIndexOf(".");
+//			StringBuffer sb = new StringBuffer(relativeuri);
+//			return sb.substring(exLen);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return "error";
+//		}
+//	}
 
 	public void destroy() {
 		super.destroy();

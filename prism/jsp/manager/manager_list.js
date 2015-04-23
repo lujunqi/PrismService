@@ -18,13 +18,7 @@ function func_user_del(id){
 function func_menu(data){
 	var id = data["MENU_ID"];
 	var str ='';	
-	str+='<a href="javascript:func_opt('+id+')">[修改]</a>';
+	str+='<a href="javascript:func_menu_upt('+id+')">[修改]</a>';
 	return str;
 }
-//字典
-function func_enum(data){
-	var id = data["MENU_ID"];
-	var str ='';	
-	str+='<a href="javascript:func_opt('+id+')">[修改]</a>';
-	return str;
-}
+

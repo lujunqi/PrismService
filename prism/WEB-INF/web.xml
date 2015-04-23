@@ -6,12 +6,22 @@
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-<resource-ref>
-<description>connectDB hcibe</description>
-<res-ref-name>jdbc/connectDB</res-ref-name>
-<res-type>javax.sql.DataSource</res-type>
-<res-auth>Container</res-auth>
-</resource-ref>
+	<!-- 数据库配置的 -->
+	<resource-ref>
+		<description>connectDB hcibe</description>
+		<res-ref-name>jdbc/connectDB</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+	<!-- spring日志 -->
+	<context-param>      
+       <param-name>log4jConfigLocation</param-name>      
+       <param-value>/WEB-INF/log4j.properties</param-value>      
+   </context-param>  
+   <context-param>      
+       <param-name>log4jRefreshInterval</param-name>      
+       <param-value>1800000</param-value>      
+   </context-param>   
 	<servlet>
 		<servlet-name>PrismAction</servlet-name>
 		<servlet-class>com.prism.action.PrismAction</servlet-class>
@@ -21,7 +31,7 @@
 		<servlet-name>PrismAction</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
-	<!-- 数据库配置的 -->
+
 	<servlet>
 		<servlet-name>PrismAction2</servlet-name>
 		<servlet-class>com.prism.action.PrismActionEx</servlet-class>
@@ -31,5 +41,6 @@
 		<servlet-name>PrismAction2</servlet-name>
 		<url-pattern>/pa/*</url-pattern>
 	</servlet-mapping>
+
 
 </web-app>

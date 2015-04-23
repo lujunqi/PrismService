@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=utf-8" language="java" import="java.util.*" errorPage="" %>
 <%@page import="com.prism.common.VMControl"%>
-<%@page import="com.prism.common.JsonUtil"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -10,12 +9,16 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 String viewName = (String)request.getAttribute("VIEWNAME");
-
-List<Object[]> my_enum = new com.prism.common.VMControl(request,response).getMapping();
+VMControl qvm = new VMControl(request,response);
+List<Object[]> my_enum = qvm.getMapping();
 
 Object dataUrl = request.getAttribute("DATAURL");
 Object dataUrlTotal = request.getAttribute("DATAURLTOTAL");
-List<String> query = new com.prism.common.VMControl(request,response).getQuery();
+
+List<String> query = qvm.getQuery();
+List<String> button  = qvm.getButton();
+
+String js = qvm.getJS();
 
 /*************************************/
 
@@ -74,8 +77,23 @@ function queryInfo(){
 		}
 	});
 }
-
-function win($content,$title,$url,func_init){
+function confirm($content,$title,$ok){
+	return $.dialog({
+		title:$title,
+		fixed: true,
+		max: false,
+		min: false,
+		resize: false,
+		drag: true,
+		lock: true,
+		lockScroll:true,
+		content: $content,
+		ok: $ok,
+		cancel:function(){
+		}
+	});
+}
+function win($content,$title,$url,$data){
 	return $.dialog({
 		title:$title,
 		width:450,
@@ -84,13 +102,13 @@ function win($content,$title,$url,func_init){
 		max: false,
 		min: false,
 		resize: false,
-		drag: false,
+		drag: true,
 		lock: true,
-		init: func_init,
 		lockScroll:true,
 		content: $content,
+		data:$data,
 		ok: function(){
-			var fv = this.content.validator(this);
+			var fv = this.content.validator();
 			if(!fv){
 				alert("验证不通过");
 				return false;
@@ -98,20 +116,19 @@ function win($content,$title,$url,func_init){
 				var url = $url;
 				var param = $.formField("#form",this.content.document.body);
 				$.post(url,param,function(data){
-					data = $.parseJSON(data);
-					if(data.code !='0'){
+					if(data.result !='0'){
 						queryInfo();
 					}else{
 						return false;
 					}
-				});
+				},"json");
 			}		
 		},
 		cancel:function(){
 		}
 	});
 }
-
+<%=js%>
 </script>
 </head>
 
@@ -128,20 +145,14 @@ function win($content,$title,$url,func_init){
         <div class="filter" id="queryInfo">
 <%
 for(int i=0;i<query.size();i++){
-	VMControl vc = new VMControl(request,response);
-	out.println(vc.getHtml(query.get(i)));
-	if(i+1 == query.size()){
-		
-	}
+	out.println(qvm.getHtml(query.get(i)));
 }
 out.println("<span class=\"mr5\"><a class=\"btn\" href=\"javascript:queryInfo()\">查询</a></span>");
-//新增
-if(request.getAttribute("BUTTON")!=null){
-	List l = (List)request.getAttribute("BUTTON");
-	for(int i=0;i<l.size();i++){
-		out.println(l.get(i));
-	}
+for(int i=0;i<button.size();i++){
+	out.println("<span class=\"mr5\">"+button.get(i)+"</span>");
 }
+/*****************************************/
+
 %>
 		</div>
 	</div>

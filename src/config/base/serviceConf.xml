@@ -20,6 +20,25 @@
 			<bean class="com.prism.source.SourceMap"/>
 		</property>
 	</bean>
+	<bean id="total" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<bean class="com.prism.source.SourceMap"/>
+		</property>
+	</bean>
+	
+	<bean id="s" class="com.prism.service.impl.basic.NormalSltService">
+		<property name="sourceMap">
+			<bean class="com.prism.source.SourceMap"/>
+		</property>
+	</bean>
+	
+	
+	<bean id="u" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<bean class="com.prism.source.SourceMap"/>
+		</property>
+	</bean>
+	
 	<bean id="v" class="com.prism.service.impl.basic.NormalHTMLService">
 		<property name="sourceMap">
 			<bean class="com.prism.source.SourceMap"/>

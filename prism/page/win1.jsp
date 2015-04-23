@@ -18,8 +18,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="scripts/jquery.js"></script>
 <script type="text/javascript" src="scripts/common.js"></script>
 <script type="text/javascript" src="prism/validator.js"></script>
+<script type="text/javascript" src="lhgdialog/lhgdialog.min.js?skin=dewblack"></script>
 <script type="text/javascript" src="prism/jquery.prism.2.0.js"></script>
+<script type="text/javascript">
+var api = frameElement.api;
+$(init);
+function init(){
+	var dt = api.data;
+	var html = "";
+	if(dt["WIDGET"]!=null){
+		var data = dt["WIDGET"];
+		for(var i=0;i<data.length;i++){
+			var d = data[i];
+			if(d.length==1){
+				html+=d[0];
+			}else{
+				html+='<li><span class="lab"><label>'+d[0]+'：</label></span><span class="mod">'+d[1]+'<em></em></span> </li>';
+			}
+		}
+		$("#WIDGET").html(html);
+	}
+	if(dt["VALUE"]!=null){
+		for(var p in dt["VALUE"]){
+			$("input[name='"+p+"']").val(dt["VALUE"][p]);
 
+		}
+	}
+}
+
+/*必有*/
+function validator(){
+	var fv = $("#form").formValidator();
+	if(fv.length>0){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+</script>
 <style type="text/css">
 <!--
 body {
@@ -28,36 +65,22 @@ body {
 	margin-right: 0px;
 	margin-bottom: 0px;
 }
-label{
-	display: inline-block;
-	vertical-align: top;
-	width: 120px;
-	height: 100%;
-	padding: 0 5px;
-	text-align: right;
-	background: #f9f9f9;
+em{
+	font-size:9px;
+	color:#FF0000;
 }
 -->
-</style></head>
+</style>
+</head>
 <body class="mainBody">
 <div class="wrapper comWrap">
   <div class="wrap-inner">
-  	
     <form class="baseFrm" id="form" name="" action="" target="" method="post">
-      <ul class="frmList clearfix">
-      <%
-		List<String> list = (List<String>)request.getAttribute("WIDGET");
-		for(String c:list){
-			out.print("<li>");
-			VMControl vc = new VMControl(request,response);
-			out.println(vc.getHtml(c));
-			out.print("</li>");
-		}%>
+      <ul class="frmList clearfix" id="WIDGET">
+        
       </ul>
     </form>
   </div>
-  
 </div>
-
 </body>
 </html>

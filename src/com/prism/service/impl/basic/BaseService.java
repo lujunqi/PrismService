@@ -86,6 +86,10 @@ public class BaseService implements Service {
 	protected List<Map<String, Object>> selectResult(String key)
 			throws BMOException {
 		String sql = (String) sourceMap.get(key);
+		String exname = getExtendName();
+		if("TOTAL".equalsIgnoreCase(exname)){
+			sql = "SELECT COUNT(1) AS TOTAL FROM ("+sql+")";
+		}
 		DBCommand cmd = new DBCommand(dbConn);
 		try {
 			if (reqMap.containsKey("prism_begin_number") && reqMap.containsKey("prism_end_number")) {
@@ -99,6 +103,18 @@ public class BaseService implements Service {
 		} catch (DAOException e) {
 			e.printStackTrace();
 			throw new BMOException(e);
+		}
+	}
+	private String getExtendName() {
+		try {
+			String relativeuri = req.getRequestURI().replaceFirst(
+					req.getContextPath(), "");
+			int exLen = relativeuri.lastIndexOf(".");
+			StringBuffer sb = new StringBuffer(relativeuri);
+			return sb.substring(exLen + 1);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
 		}
 	}
 
