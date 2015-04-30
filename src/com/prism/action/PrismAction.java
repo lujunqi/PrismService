@@ -29,6 +29,8 @@ public class PrismAction extends HttpServlet {
 	public void service(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		try {
+			context = new ClassPathXmlApplicationContext(xmls);
+			
 			req.setCharacterEncoding("UTF-8");
 			res.setContentType("text/html;charset=UTF-8");
 			String action = getAction(req);

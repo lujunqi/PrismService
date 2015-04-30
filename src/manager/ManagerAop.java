@@ -47,10 +47,6 @@ public class ManagerAop {
 		try {
 			Service s = (Service) pjp.getTarget();
 			HttpServletRequest req = s.getRequest();
-			Object dbConn = req.getAttribute("DBConnection");
-			DBCommand cmd = new DBCommand(dbConn);
-			String sql = "INSERT INTO SM_LOGS(LOG_ID,LOG_NAME,LOG_INFO,LOG_SESSION,LOG_IP)VALUES"
-					+ "(SEQ_SM_LOGS.NEXTVAL,${LOG_NAME<STRING>},${LOG_INFO<STRING>},${LOG_SESSION<STRING>},${LOG_IP<STRING>})";
 			String relativeuri = req.getRequestURI().replaceFirst(
 					req.getContextPath(), "");
 			HttpSession session = req.getSession();
@@ -67,8 +63,11 @@ public class ManagerAop {
 			m.put("LOG_INFO", req.getAttribute("reqMap")+"");
 			m.put("LOG_SESSION", sessionMap+"");
 			m.put("LOG_IP", req.getRemoteAddr()+"");
-			
-			cmd.executeUpdate(sql, m);
+//			Object dbConn = req.getAttribute("DBConnection");
+//			DBCommand cmd = new DBCommand(dbConn);
+//			String sql = "INSERT INTO SM_LOGS(LOG_ID,LOG_NAME,LOG_INFO,LOG_SESSION,LOG_IP)VALUES"
+//					+ "(SEQ_SM_LOGS.NEXTVAL,${LOG_NAME<STRING>},${LOG_INFO<STRING>},${LOG_SESSION<STRING>},${LOG_IP<STRING>})";
+//			cmd.executeUpdate(sql, m);
 
 			pjp.proceed();
 		} catch (Throwable e) {
