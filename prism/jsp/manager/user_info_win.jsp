@@ -35,10 +35,10 @@ function init(){
 				$("input[name='USER_NAME']").val(data[0]["USER_NAME"]);
 				$("input[name='USER_MOBILE']").val(data[0]["USER_MOBILE"]);
 				
-				$("input[name='USER_PWD']").parent().parent().hide();
-				$("input[name='USER_REPWD']").parent().parent().hide();
-				$("input[name='USER_PWD']").attr("disabled","disabled");
-				$("input[name='USER_REPWD']").attr("disabled","disabled");
+				$("input[name='LOGIN_PWD']").parent().parent().hide();
+				$("input[name='LOGIN_REPWD']").parent().parent().hide();
+				$("input[name='LOGIN_PWD']").attr("disabled","disabled");
+				$("input[name='LOGIN_REPWD']").attr("disabled","disabled");
 				
 			}
 		},"json");
@@ -92,13 +92,13 @@ em{
         <li> <span class="lab">
           <label for="">密　码：</label>
           </span> <span class="mod">
-          <input name="USER_PWD" type="password" class="password w140" valida="vLength" validaParam='{"min":6,"max":10}' validaMsg="密码长度6-10位"/>
+          <input name="LOGIN_PWD" type="password" class="password w140" valida="vLength" validaParam='{"min":6,"max":10}' validaMsg="密码长度6-10位"/>
           <em></em>
           </span> </li>
         <li> <span class="lab">
           <label for="">确认密码：</label>
           </span> <span class="mod">
-          <input name="USER_REPWD" type="password" class="password w140" valida="v1" validaMsg="密码输入不一致"/>
+          <input name="LOGIN_REPWD" type="password" class="password w140" valida="v1" validaMsg="密码输入不一致"/>
           <em></em>
           </span> </li>
         <li> <span class="lab">

@@ -52,7 +52,8 @@ public class PrismActionEx extends HttpServlet {
 					reqMap.put(name, req.getParameter(name));
 				}
 			}
-
+			
+			
 			reqMap.put("_action", action);
 			req.setAttribute("reqMap", reqMap);
 			req.setAttribute("context", context);

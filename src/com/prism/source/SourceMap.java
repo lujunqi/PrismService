@@ -23,7 +23,9 @@ public class SourceMap extends HashMap<String, Object> implements Map<String, Ob
 				Object val2 = map2.get("VAL");
 				this.put(key2, val2);
 			}
-			
+			if(!this.containsKey("VIEW")){//默认值
+				this.put("VIEW", "$v.toJson()");
+			}
 		} catch (DAOException e) {
 			e.printStackTrace();
 		}

@@ -38,7 +38,7 @@ public class VMControl {
 				String mapping = (String) req.getAttribute("MAPPING");
 				vc.put("m", this);
 				try {
-					js = getResultfromContent(mapping, vc);
+					js += getResultfromContent(mapping, vc)+"\n";
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -69,7 +69,7 @@ public class VMControl {
 				vc.put("b", list);
 
 				try {
-					getResultfromContent(s, vc);
+					js+= getResultfromContent(s, vc)+"\n";
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

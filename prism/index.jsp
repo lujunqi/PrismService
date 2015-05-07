@@ -20,33 +20,7 @@ if(user_id==null){
 <script type="text/javascript" src="scripts/jquery.js"></script>
 <script type="text/javascript" src="scripts/lhgdialog/lhgdialog.min.js?skin=dblue"></script>
 <script type="text/javascript" src="scripts/common.js"></script>
-<script type="text/javascript">
-$(init);
-function init(){
 
-}
-
-function getPages(){
-	$.dialog.confirm('你确定要生成页面吗？', function(){
-		$.dialog.tips('页面生成中...',600,'loading.gif');
-		var url = "pages.do";
-		$.post(url,function(data){
-			$.dialog.tips('页面生成完毕',1,'tips.gif',function(){
-				$.dialog.confirm('你确定要预览这个页面？<br/>（注意：页面生成后，必需要做手工页面流量的填写）', function(){
-					window.location.href="index.html";
-				});
-			});
-		});
-	});
-}
-
-</script>
-<!--[if IE 6]>
-<script type="text/javascript" src="scripts/DD_belatedPNG_0.0.8a-min.js" ></script>
-<script type="text/javascript">
-	DD_belatedPNG.fix('.pngfix');
-</script>
-<![endif]-->
 </head>
 
 <body class="fluid">

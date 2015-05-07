@@ -7,13 +7,7 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-String viewName = (String)request.getAttribute("VIEWNAME");
-VMControl qvm = new VMControl(request,response);
-List<Object[]> my_enum = qvm.getMapping();
 
-List<String> query = qvm.getQuery();
-List<String> button  = qvm.getButton();
-String js = qvm.getJS();
 /*************************************/
 %>
 <base href="<%=basePath%>"></base>
@@ -44,24 +38,21 @@ function init(){
 	});
 	}
 }
-function win2($content,$title,$ok,$data){
-	return W.$.dialog({
-		title:$title,
-		width:450,
-		height:220,
-		fixed: true,
-		max: false,
-		min: false,
-		resize: false,
-		drag: true,
-		lock: true,
-		lockScroll:true,
-		content: $content,
-		data:$data,
-		ok:$ok,
-		cancel:function(){
+function func_opt(data){
+	var auth_range = data["AUTH_RANGE"];
+	var user_id = data["USER_ID"];
+  	var auth_id = data["AUTH_ID"];
+	var range_val = data["RANGE_VAL"];
+	
+	var str ='加载中';
+	$.post("pa/user_auth_range.s",{USER_ID:user_id,AUTH_ID:auth_id,RANGE_VAL:range_val},function(d){
+		if(d[0]["total"]==0){
+			str='<a href="javascript:func_enum_upt(\''+range_val+'\')">[添加]</a>';
+		}else{
+			str='<a href="javascript:func_enum_upt(\''+range_val+'\')">[取消]</a>';
 		}
-	});
+	},"json");
+	return str;
 }
 function confirm($content,$title,$ok){
 	return W.$.dialog({
@@ -79,7 +70,6 @@ function confirm($content,$title,$ok){
 		}
 	});
 }
-<%=js%>
 </script>
 </head>
 
@@ -88,20 +78,21 @@ function confirm($content,$title,$ok){
 		    <table id="" class="comTabList" width="100%" border="0" cellspacing="0" cellpadding="0">
       <thead>
           <tr>
-<%for(int i=0;i<my_enum.size();i++){
-	out.println("<th>"+my_enum.get(i)[0]+"</th>");
-}%>
+			<th>值</th>
+			<th>名称</th>
+			<th>操作</th>
+			
           </tr>
       </thead> 
       <tbody id="list" class="comTabList" prism="dataGrid">
         <tr>
-<%for(int i=0;i<my_enum.size();i++){
-	out.println("<td>"+my_enum.get(i)[1]+"</td>");
-}%>
+			<td>#@RANGE_VAL#</td>
+			<td>#@RANGE_NAME#</td>
+			<td>#@func:func_opt#</td>
         </tr>
 	 </tbody>
      <tfoot>
-    	<tr><td colspan="<%=my_enum.size()%>" nowrap="nowrap" class="page"></td></tr>
+    	<tr><td colspan="3" nowrap="nowrap" class="page"></td></tr>
      </tfoot>
 	</table>
 	</div>

@@ -17,11 +17,8 @@ Object dataUrlTotal = request.getAttribute("DATAURLTOTAL");
 
 List<String> query = qvm.getQuery();
 List<String> button  = qvm.getButton();
-
 String js = qvm.getJS();
-
 /*************************************/
-
 %>
 <base href="<%=basePath%>">
 </base>
@@ -124,6 +121,25 @@ function win($content,$title,$url,$data){
 				},"json");
 			}		
 		},
+		cancel:function(){
+		}
+	});
+}
+function win2($content,$title,$ok,$data){
+	return $.dialog({
+		title:$title,
+		width:450,
+		height:220,
+		fixed: true,
+		max: false,
+		min: false,
+		resize: false,
+		drag: true,
+		lock: true,
+		lockScroll:true,
+		content: $content,
+		data:$data,
+		ok:$ok,
 		cancel:function(){
 		}
 	});

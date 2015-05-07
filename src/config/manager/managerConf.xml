@@ -74,6 +74,22 @@ VALUES(SEQ_SM_USER.NEXTVAL,${USER_NAME<STRING>},${LOGIN_NAME<STRING>},${LOGIN_PW
 			</map>
 		</property>
 	</bean>
+	<!-- 新增用户 -->
+	<bean id="user_del" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+DELETE FROM SM_USER WHERE USER_ID = ${USER_ID<INT>}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="$v.toJson()" />
+			</map>
+		</property>
+	</bean>
+	
 	<!-- 用户信息 -->
 	<bean id="user_info" class="com.prism.service.impl.basic.NormalSltService">
 		<property name="sourceMap">
@@ -96,7 +112,7 @@ SELECT USER_ID,USER_NAME,LOGIN_NAME,USER_MOBILE FROM SM_USER WHERE USER_ID = ${U
 				<entry key="SQL">
 					<value>
 <![CDATA[
-UPDATE SM_USER SET USER_NAME=${USER_NAME<STRING>},USER_MOBILE=${USER_NAME<STRING>} WHERE USER_ID = ${USER_ID<INT>}
+UPDATE SM_USER SET USER_NAME=${USER_NAME<STRING>},USER_MOBILE=${USER_MOBILE<STRING>} WHERE USER_ID = ${USER_ID<INT>}
 ]]>
 					</value>
 				</entry>
@@ -104,7 +120,21 @@ UPDATE SM_USER SET USER_NAME=${USER_NAME<STRING>},USER_MOBILE=${USER_NAME<STRING
 			</map>
 		</property>
 	</bean>
-	
+	<!-- 初始化密码 -->
+	<bean id="user_pwd" class="com.prism.service.impl.basic.NormalUptService">
+		<property name="sourceMap">
+			<map>
+				<entry key="SQL">
+					<value>
+<![CDATA[
+UPDATE SM_USER SET LOGIN_PWD='123456' WHERE USER_ID = ${USER_ID<INT>}
+]]>
+					</value>
+				</entry>
+				<entry key="VIEW" value="$v.toJson()" />
+			</map>
+		</property>
+	</bean>
 	<!-- 用户账号验证 -->
 	<bean id="user_check" class="com.prism.service.impl.basic.NormalSltService">
 		<property name="sourceMap">
@@ -158,26 +188,6 @@ CONNECT BY PRIOR M.MENU_ID = M.SUP_MENU_ID
 					</value>
 				</entry>
 				<entry key="FORWARD" value="index.jsp" />
-			</map>
-		</property>
-	</bean>
-	<!-- 菜单管理 -->
-	<bean id="menu_list" class="com.prism.service.impl.basic.NormalSltService">
-		<property name="sourceMap">
-			<map>
-				<entry key="SQL">
-					<value>
-<![CDATA[
-SELECT M.MENU_ID, M.MENU_URL, M.MENU_NAME, M.SUP_MENU_ID, LEVEL LV
-  FROM SM_MENU M
- WHERE MENU_STATUS = 0
- START WITH SUP_MENU_ID = 0
-CONNECT BY PRIOR MENU_ID = SUP_MENU_ID
- ORDER SIBLINGS BY MENU_ORDER
-]]>
-					</value>
-				</entry>
-				<entry key="VIEW" value="$v.toJson()" />
 			</map>
 		</property>
 	</bean>

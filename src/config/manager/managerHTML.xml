@@ -35,97 +35,93 @@
 					</list>
 				</entry>
 				<entry key="QUERY">
-					<value>
+					<value><![CDATA[
 						$q.add($el.text("姓名","USER_NAME"));
-						$q.add($el.text("用户名","LOGIN_NAME"));
+						$q.add($el.text("用户名","LOGIN_NAME"));]]>
 					</value>
 				</entry>
 				<entry key="DATAURL" value="user_list.do" /><!-- 明细 -->
 				<entry key="DATAURLTOTAL" value="user_list_total.do" /><!-- 总记录数 -->
-				<entry key="JS_SRC" value="jsp/manager/manager_list.js" /><!-- 
-					js -->
 
 				<entry key="BUTTON">
-					<list>
-						<value><![CDATA[<a class="btn" href="javascript:win('url:jsp/manager/user_info_win.jsp','新增用户','user_add.do')">新增</a>]]></value>
-					</list>
-				</entry>
-				<entry key="TEMPLATE" value="/page/model_list.jsp" /><!-- 模板 -->
-			</map>
-		</property>
-	</bean>
-	<!-- 用户 -->
-	<bean id="menu_view" class="com.prism.service.impl.basic.NormalHTMLService">
-		<property name="sourceMap">
-			<map>
-				<entry key="VIEWNAME" value="查询用户" />
-				<entry key="MAPPING">
-					<value>
-<![CDATA[
-$m.add("菜单ID","#@MENU_ID#");
-$m.add("菜单名称","#@MENU_NAME#");
-$m.add("菜单地址","#@MENU_URL#");
-$m.add("上级菜单","#@SUP_MENU_ID#");
-$m.add("菜单等级","#@LV#");
-$m.add("操作","#@func:func_menu#");
-function func_menu(data){
-  var nkey = data["MENU_ID"];
-  var str ='';  
-  str+='<a href="javascript:func_enum_upt(\''+nkey+'\')">[修改]</a>';
-  str+='<a href="javascript:func_enum_del(\''+nkey+'\')">[删除]</a>';
-  return str;
+					<value><![CDATA[
+$b.add("<a class=""btn"" href=""javascript:win('url:jsp/manager/user_info_win.jsp','新增用户','user_add.do')"">新增</a>");
+function func_user(data){
+	var user_id = data["USER_ID"];
+	var str ='';	
+	str+='<a href="javascript:func_user_opt('+user_id+')">[赋权]</a>';
+	str+='<a href="javascript:func_user_upt('+user_id+')">[修改]</a>';
+	str+='<a href="javascript:func_user_pwd('+user_id+')">[初始化密码]</a>';
+	str+= '<a href="javascript:func_user_del('+user_id+')">[删除]</a>';
+	return str;
 }
-function func_enum_upt(nkey){
-  var w = {};
-  var dt = [];
-  w["WIDGET"] = dt;
-  $.post("pa/menu_info.s",{MENU_ID:nkey},function(data){
-  	if(data.length==1){
-	    w["VALUE"] = data[0];
-    }
-    dt.push(['菜单名称','<input name="MENU_NAME" type="text" class="text w140"/>']);
-    dt.push(['菜单地址','<input name="MENU_URL" type="text" class="text w140"/>']);
-    dt.push(['上级菜单','<input name="SUP_MENU_ID" type="text" class="text w140"/>']);
-    dt.push(['<input name="NKEY" type="hidden" class="text w140" value="'+nkey+'"/>']);
-    var d = win("url:page/win1.jsp","菜单数据修改","pa/enum_upt.u",w);
-  },"json");
+function func_user_opt(nkey){
+  
+  return $.dialog({
+		title:"授权管理",
+		width:800,
+		height:450,
+		fixed: true,
+		max: true,
+		min: false,
+		resize: false,
+		drag: true,
+		lock: true,
+		lockScroll:true,
+		content: "url:pa/user_auth_win.v",
+		data:{URL:"pa/user_auth_list.s",WIDGET:{USER_ID:nkey}},
+		button:[{name:"赋权",
+		         callback:function(){
+		            var w = {};
+  					var dt = [];
+  					w["URL"]="pa/user_auth_other_list.s";
+  					w["WIDGET"] = {USER_ID:nkey};
+  					w["OPENER"] = this.content;
+		         	win2("url:pa/user_auth_other_win.v","授权管理",function(){return true;},w);
+		         	return false;
+		         },
+		         focus:true
+		         },
+		         {name:"取消",
+		         callback:function(){
+		         	return true;
+		         }}]
+		
+	});
+  
 }
-function func_enum_del(nkey){
-	confirm("是否删除菜单","菜单管理",function(){
-		$.post("pa/menu_del.u",{MENU_ID:nkey},function(data){
-			if(data["code"]==1){
-				queryInfo();
-			}else{
-				alert("删除失败");
-			}
-		},"JSON");
+function func_user_upt(id){
+	win("url:jsp/manager/user_info_win.jsp?id="+id,"用户资料修改","user_upt.do");
+}
+function func_user_del(id){
+	confirm("是否删除用户","用户管理",function(){
+	$.post("user_del.do",{USER_ID:id},function(data){
+		if(data["code"]==1 && data["result"]==1 ){
+			queryInfo();
+		}else{
+			alert("删除失败");
+		}
+	},"json");
 	});
 }
-function func_enum_add(){
-  var w = {};
-  var dt = [];
-  w["WIDGET"] = dt;
-  dt.push(['菜单ID','<input name="MENU_ID" type="text" class="text w100"/>']);
-  dt.push(['菜单名称','<input name="MENU_NAME" type="text" class="text w140"/>']);
-  dt.push(['菜单地址','<input name="MENU_URL" type="text" class="text w140"/>']);
-  dt.push(['上级菜单','<input name="SUP_MENU_ID" type="text" class="text w100"/>']);
-  dt.push(['菜单排序','<input name="MENU_ORDER" type="text" class="text w100"/>']);
-  win("url:page/win1.jsp","菜单新增","pa/enum_add.u",w);
-}
-]]>
-					</value>
+function func_user_pwd(id){
+	confirm("是否初始化该用户密码","用户管理",function(){
+	$.post("user_pwd.do",{USER_ID:id},function(data){
+		if(data["code"]==1 && data["result"]==1 ){
+			queryInfo();
+		}else{
+			alert("操作失败");
+		}
+	},"json");
+	});
+}					
+					]]></value>
+					
 				</entry>
-				<entry key="BUTTON">
-					<list>
-						<value><![CDATA[<a class="btn" href="javascript:func_enum_add()">新增</a>]]></value>
-					</list>
-				</entry>
-				<entry key="DATAURL" value="pa/menu_list.s" /><!-- 明细 -->
-				<entry key="DATAURLTOTAL" value="pa/menu_list.total" /><!-- 明细 -->
-				
 				<entry key="TEMPLATE" value="/page/model_list.jsp" /><!-- 模板 -->
 			</map>
 		</property>
 	</bean>
+	
 
 </beans>

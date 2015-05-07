@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -90,6 +91,7 @@ public class BaseService implements Service {
 		if("TOTAL".equalsIgnoreCase(exname)){
 			sql = "SELECT COUNT(1) AS TOTAL FROM ("+sql+")";
 		}
+		log(sql);
 		DBCommand cmd = new DBCommand(dbConn);
 		try {
 			if (reqMap.containsKey("prism_begin_number") && reqMap.containsKey("prism_end_number")) {
@@ -121,6 +123,7 @@ public class BaseService implements Service {
 	protected List<Map<String, Object>> selectResult(String key, int minnum,
 			int maxnum) throws BMOException {
 		String sql = (String) sourceMap.get(key);
+		log(sql);
 		DBCommand cmd = new DBCommand(dbConn);
 		try {
 			return cmd.executeSelect(sql, reqMap, minnum, maxnum);
@@ -133,6 +136,7 @@ public class BaseService implements Service {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.putAll(reqMap);
 		String sql = (String) sourceMap.get(key);
+		log(sql);
 		DBCommand cmd = new DBCommand(dbConn);
 		try {
 			return cmd.executeCall(sql, map);
@@ -143,6 +147,7 @@ public class BaseService implements Service {
 
 	protected Object updateResult(String key) throws BMOException {
 		String sql = (String) sourceMap.get(key);
+		log(sql);
 		DBCommand cmd = new DBCommand(dbConn);
 		try {
 			return cmd.executeUpdate(sql, reqMap);
@@ -158,6 +163,7 @@ public class BaseService implements Service {
 	protected String convertSql(String oldKey, String newKey) {
 		try {
 			String sql = (String) sourceMap.get(oldKey);
+			log(sql);
 			VMRequest v = new VMRequest();
 			v.setReqMap(reqMap);
 			vc.put("v", v);
@@ -169,7 +175,12 @@ public class BaseService implements Service {
 			return "";
 		}
 	}
-
+	private void log(String sql){
+		System.out.println(sql);
+		System.out.println(reqMap);
+		System.out.println("====================="+UUID.randomUUID());
+		
+	}
 	protected Map<String, Object> sourceMap = new HashMap<String, Object>();
 
 	public void setSourceMap(Map<String, Object> sourceMap) {

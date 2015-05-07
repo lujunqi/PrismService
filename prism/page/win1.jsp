@@ -41,7 +41,6 @@ function init(){
 	if(dt["VALUE"]!=null){
 		for(var p in dt["VALUE"]){
 			$("input[name='"+p+"']").val(dt["VALUE"][p]);
-
 		}
 	}
 }
