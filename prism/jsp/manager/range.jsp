@@ -39,21 +39,36 @@ function init(){
 	}
 }
 function func_opt(data){
-	var auth_range = data["AUTH_RANGE"];
-	var user_id = data["USER_ID"];
-  	var auth_id = data["AUTH_ID"];
+	var dt = api.data;
+	var param = dt["WIDGET"];
 	var range_val = data["RANGE_VAL"];
-	
-	var str ='加载中';
-	$.post("pa/user_auth_range.s",{USER_ID:user_id,AUTH_ID:auth_id,RANGE_VAL:range_val},function(d){
-		if(d[0]["total"]==0){
-			str='<a href="javascript:func_enum_upt(\''+range_val+'\')">[添加]</a>';
-		}else{
-			str='<a href="javascript:func_enum_upt(\''+range_val+'\')">[取消]</a>';
-		}
-	},"json");
+	param["RANGE_VAL"] = range_val;
+	var str ="..";
+	if(data["OPT"]==0){
+		str='<a href="javascript:func_range_add(\''+range_val+'\')">[添加]</a>';
+	}else{
+		str='<a href="javascript:func_range_del(\''+range_val+'\')">[取消]</a>';
+	}
+
 	return str;
 }
+function func_range_del(range_val){
+	var dt = api.data;
+	var param = dt["WIDGET"];
+	param["RANGE_VAL"] = range_val;
+	$.post("pa/user_range_del.u",param,function(data){
+	  init();
+	},"json");
+}
+function func_range_add(range_val){
+	var dt = api.data;
+	var param = dt["WIDGET"];
+	param["RANGE_VAL"] = range_val;
+	$.post("pa/user_range_add.u",param,function(data){
+	  init();
+	},"json");
+}
+
 function confirm($content,$title,$ok){
 	return W.$.dialog({
 		title:$title,

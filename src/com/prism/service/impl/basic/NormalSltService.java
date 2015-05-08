@@ -30,19 +30,35 @@ import com.prism.common.VMResponse;
 public class NormalSltService extends BaseService {
 	private VelocityContext vc = new VelocityContext();
 
+	@SuppressWarnings({ "unchecked" })
 	public void service() throws ServletException, IOException {
-
 		super.service();
 		PrintWriter out = getResponse().getWriter();
 		try {
+			Long s = new Date().getTime();
 			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-			if (sourceMap.containsKey("DSQL")) {
-				convertSql("DSQL", "NSQL");
-				list = selectResult("NSQL");
-			} else if (sourceMap.containsKey("SQL")) {
-				list = selectResult("SQL");
+			Object obj = null;
+			if (sourceMap.containsKey("STATIC_DATA")) {
+				obj = getStaticData(reqMap);
+				if (obj != null) {
+					list = (List<Map<String, Object>>) obj;
+				}
 			}
+			if (list.isEmpty()) {
+				if (sourceMap.containsKey("DSQL")) {
+					convertSql("DSQL", "NSQL");
+					list = selectResult("NSQL");
+				} else if (sourceMap.containsKey("SQL")) {
+					list = selectResult("SQL");
+				}
+				if (sourceMap.containsKey("STATIC_DATA")) {
+					setStaticData(reqMap, list);
+				}
+			}
+			Long e = new Date().getTime();
+			
 			String action = (String) reqMap.get("_action");
+			System.out.println(action+"[耗时]================="+(e-s));
 			reqMap.put(action, list);
 			reqMap.put("this", list);
 			getRequest().setAttribute("this", list);
@@ -70,7 +86,8 @@ public class NormalSltService extends BaseService {
 				System.out.println(list);
 				ExcelCommon excel = new ExcelCommon();
 				String rule = "";
-				excel.List2Excel(reqMap, null, rule,  getResponse().getOutputStream());
+				excel.List2Excel(reqMap, null, rule, getResponse()
+						.getOutputStream());
 			}
 
 			// FORWARD 页面跳转

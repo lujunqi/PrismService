@@ -56,7 +56,7 @@ function validator(){
 
 function v1(el,value){
 
-	if($("input[name='USER_PWD']").val()!=value){
+	if($("input[name='LOGIN_PWD']").val()!=value){
 		return false;
 	}else{
 		return true;
