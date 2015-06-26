@@ -63,7 +63,9 @@ public class PrismAction extends HttpServlet {
 		try {
 			String relativeuri = req.getRequestURI().replaceFirst(
 					req.getContextPath(), "");
-
+			if("/".equals(relativeuri)){
+				return "index";
+			}
 			relativeuri = relativeuri.replaceAll("/", "");
 			int exLen = relativeuri.lastIndexOf(".");
 			StringBuffer sb = new StringBuffer(relativeuri);

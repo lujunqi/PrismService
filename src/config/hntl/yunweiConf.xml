@@ -8,6 +8,8 @@
                         http://www.springsource.org/schema/aop/spring-aop-3.0.xsd  
                         http://www.springframework.org/schema/tx  
                             http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	
 	<!-- 中间表 -->
 	<bean id="tat_list" class="com.prism.service.impl.basic.NormalSltService">
 		<property name="sourceMap">
@@ -24,9 +26,10 @@ SELECT T.TEMINAL_INFO_ID,T.APPPAY_ID,T.APPTYPE,TERM_ID1,TERM_ID2
 #if(!$v.isEmpty("TERM_ID2"))
    AND TRIM(T.TERM_ID2) = TRIM(${v.set("TERM_ID2","STRING")})
 #end
-   AND ROWNUM < 20
-ORDER BY T.BIND_DATE DESC
-]]>
+   AND ROWNUM 
+						< 20
+						ORDER BY T.BIND_DATE DESC
+						]]>
 					</value>
 				</entry>
 				<entry key="VIEW" value="$v.toJson()" />
@@ -74,5 +77,5 @@ SELECT (SELECT TEMP.TERM_ID3
 				<entry key="VIEW" value="$v.toJson()" />
 			</map>
 		</property>
-	</bean>	
+	</bean>
 </beans>

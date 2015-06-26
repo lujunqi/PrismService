@@ -23,7 +23,7 @@ public class PrismActionEx extends HttpServlet {
 
 	public void init() throws ServletException {
 		System.out.println("PrismActionEx正在加载....");
-		context = new ClassPathXmlApplicationContext(xmls);
+		context = new ClassPathXmlApplicationContext(xmls[0],"config/base/taskConf.xml");
 	}
 
 	public void service(HttpServletRequest req, HttpServletResponse res)

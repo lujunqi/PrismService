@@ -25,6 +25,7 @@ String js = qvm.getJS();
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="css/global-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
+<link rel="stylesheet" type="text/css" href="prism/prism.2.0.css" />
 <!-- 引入jquery -->
 <script type="text/javascript" src="scripts/jquery.js"></script>
 <script type="text/javascript" src="scripts/jquery.blockUI.js"></script>
@@ -69,8 +70,12 @@ function queryInfo(){
 		<%if(dataUrlTotal!=null){
 			out.println("pageUrl:\""+dataUrlTotal+"\",");
 		}%>
+		begin:function(el){
+			loadingOne("show");
+		},
 		end:function(el,data){
 			initComTablist();
+			loadingOne("hide");
 		}
 	});
 }

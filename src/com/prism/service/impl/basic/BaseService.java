@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StringWriter;
 import java.security.MessageDigest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -36,6 +37,7 @@ import com.prism.exception.DAOException;
 import com.prism.service.Service;
 
 public class BaseService implements Service {
+	private static String basePath = "";// 缓冲数据存放路径
 	protected Map<String, Object> reqMap;
 	private VelocityContext vc = new VelocityContext();
 	protected Object dbConn;
@@ -47,6 +49,7 @@ public class BaseService implements Service {
 		reqMap = (Map<String, Object>) req.getAttribute("reqMap");
 		dbConn = req.getAttribute("DBConnection");
 		vc = new VelocityContext();
+		
 		// cookie参数
 		Cookie[] cookies = req.getCookies();
 		Map<String, Object> cookieMap = new HashMap<String, Object>();
@@ -92,6 +95,7 @@ public class BaseService implements Service {
 	}
 
 	// SELECT
+	@SuppressWarnings("unchecked")
 	protected List<Map<String, Object>> selectResult(String key)
 			throws BMOException {
 		String sql = (String) sourceMap.get(key);
@@ -108,10 +112,35 @@ public class BaseService implements Service {
 						+ "");
 				int maxnum = Integer.parseInt(reqMap.get("prism_end_number")
 						+ "");
-
-				return cmd.executeSelect(sql, reqMap, minnum, maxnum);
+				List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+				if (sourceMap.containsKey("STATIC_DATA")) {
+					Object obj = getStaticData(reqMap);
+					if (obj != null) {
+						list = (List<Map<String, Object>>) obj;
+					}
+				}
+				if (list.isEmpty()) {
+					list = cmd.executeSelect(sql, reqMap, minnum, maxnum);
+					if (sourceMap.containsKey("STATIC_DATA")) {
+						setStaticData(reqMap, list);
+					}
+				}
+				return list;
 			} else {
-				return cmd.executeSelect(sql, reqMap);
+				List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+				if (sourceMap.containsKey("STATIC_DATA")) {
+					Object obj = getStaticData(reqMap);
+					if (obj != null) {
+						list = (List<Map<String, Object>>) obj;
+					}
+				}
+				if (list.isEmpty()) {
+					list = cmd.executeSelect(sql, reqMap);
+					if (sourceMap.containsKey("STATIC_DATA")) {
+						setStaticData(reqMap, list);
+					}
+				}
+				return list;
 			}
 		} catch (DAOException e) {
 			e.printStackTrace();
@@ -151,6 +180,7 @@ public class BaseService implements Service {
 		log(sql);
 		DBCommand cmd = new DBCommand(dbConn);
 		try {
+			cleanStaticData();
 			return cmd.executeCall(sql, map);
 		} catch (DAOException e) {
 			throw new BMOException(e);
@@ -162,7 +192,9 @@ public class BaseService implements Service {
 		log(sql);
 		DBCommand cmd = new DBCommand(dbConn);
 		try {
-			return cmd.executeUpdate(sql, reqMap);
+			Object obj = cmd.executeUpdate(sql, reqMap);
+			cleanStaticData();
+			return obj;
 		} catch (DAOException e) {
 			throw new BMOException(e);
 		}
@@ -191,21 +223,39 @@ public class BaseService implements Service {
 	private void log(String sql) {
 		System.out.println(sql);
 		System.out.println(reqMap);
-		System.out.println("====================="+UUID.randomUUID());
+		System.out.println("=====================" + UUID.randomUUID());
 	}
 
-	protected Object getStaticData(Object key) {
-		String basePath = "e:/staticdata/";
+	private void cleanStaticData() {// 消除静态数据影响
+		basePath = req.getServletContext().getInitParameter("basePath");
+		if (sourceMap.containsKey("STATIC_DATA")) {
+			String[] ns = (sourceMap.get("STATIC_DATA") + "").split(",");
+			File[] fs = new File(basePath).listFiles();
+			for (int i = 0; i < fs.length; i++) {
+				String n2 = fs[i].getName();
+				for (int j = 0; j < ns.length; j++) {
+					String n1 = ns[j];
+					if (n2.startsWith(n1)) {
+						fs[i].delete();
+					}
+
+				}
+			}
+		}
+	}
+
+	private Object getStaticData(Object key) {
+		basePath = req.getServletContext().getInitParameter("basePath");
+		
 		File[] fs = new File(basePath).listFiles();
 		for (int i = 0; i < fs.length; i++) {
 			Long d1 = fs[i].lastModified();
 			Long d2 = new Date().getTime();
-			if ((d2 - d1) > 30*1000) {// 30秒后数据失效
+			if ((d2 - d1) > 30 * 1000) {// 30秒后静态数据失效
 				fs[i].delete();
 			}
 		}
 		File f = new File(basePath, reqMap.get("_action") + "_" + MD5(key + ""));
-
 		if (f.exists()) {
 			try {
 				ObjectInputStream in = new ObjectInputStream(
@@ -230,7 +280,6 @@ public class BaseService implements Service {
 
 	protected void setStaticData(Object key, Object val) {
 		try {
-			String basePath = "e:/staticdata/";
 			File f = new File(basePath, reqMap.get("_action") + "_"
 					+ MD5(key + ""));
 			ObjectOutputStream os = new ObjectOutputStream(

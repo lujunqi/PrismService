@@ -21,6 +21,7 @@ String js = qvm.getJS();
 <link rel="stylesheet" type="text/css" href="css/global-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/jquery.selectbox.css" />
+<link rel="stylesheet" type="text/css" href="prism/prism.2.0.css" />
 <script type="text/javascript" src="scripts/jquery.js"></script>
 <script type="text/javascript" src="scripts/common.js"></script>
 <script type="text/javascript" src="prism/validator.js"></script>
@@ -38,7 +39,11 @@ function init(){
 		$("#list").prism({
 			content:dt["URL"],
 			param:dt["WIDGET"],
+			begin:function(el){
+				loadingOne("show");
+			},
 			end:function(el,data){
+				loadingOne("hide");
 				initComTablist();
 			}
 	});

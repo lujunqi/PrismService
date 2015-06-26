@@ -33,7 +33,7 @@ function init(){
 			if(d.length==1){
 				html+=d[0];
 			}else{
-				html+='<li><span class="lab"><label>'+d[0]+'：</label></span><span class="mod">'+d[1]+'<em></em></span> </li>';
+				html+='<li><span class="lab"><label>'+d[0]+'：</label></span><span class="mod">'+d[1]+'<em></em></span></li>';
 			}
 		}
 		$("#WIDGET").html(html);

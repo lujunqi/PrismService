@@ -5,12 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.prism.dbutil.DBCommand;
+import com.prism.dbutil.DBConnection;
 import com.prism.exception.DAOException;
 
 public class SourceMap extends HashMap<String, Object> implements Map<String, Object>{
 
 	private static final long serialVersionUID = 1L;
-
+	
 	public void setKey(String action, Object dbConn) {
 		String sql = "SELECT * FROM SM_BEAN WHERE ACTION=${ACTION<STRING>}";
 		DBCommand cmd = new DBCommand(dbConn);
@@ -30,6 +31,8 @@ public class SourceMap extends HashMap<String, Object> implements Map<String, Ob
 			e.printStackTrace();
 		}
 	}
+
+	
 
 
 

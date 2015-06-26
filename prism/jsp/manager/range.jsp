@@ -56,7 +56,11 @@ function func_range_del(range_val){
 	var dt = api.data;
 	var param = dt["WIDGET"];
 	param["RANGE_VAL"] = range_val;
-	$.post("pa/user_range_del.u",param,function(data){
+	var url = "pa/role_range_del.u";
+	if(param["USER_ID"]!=null){
+		url = "pa/user_range_del.u";
+	}
+	$.post(url,param,function(data){
 	  init();
 	},"json");
 }
@@ -64,7 +68,11 @@ function func_range_add(range_val){
 	var dt = api.data;
 	var param = dt["WIDGET"];
 	param["RANGE_VAL"] = range_val;
-	$.post("pa/user_range_add.u",param,function(data){
+	var url = "pa/role_range_add.u";
+	if(param["USER_ID"]!=null){
+		url = "pa/user_range_add.u";
+	}
+	$.post(url,param,function(data){
 	  init();
 	},"json");
 }

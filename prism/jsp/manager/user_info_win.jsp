@@ -24,22 +24,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 $(init);
 function init(){
-
+	//部门
+	$.post("pa/org_list.s",function(data){
+		var html = "";
+		for(var i=0;i<data.length;i++){
+			html+='<option value="'+data[i]["ORG_ID"]+'">'+data[i]["ORG_NAME"]+'</option>';
+		}
+		$("#ORG_ID").html(html);
+	},"json");
 	var id = <%=request.getParameter("id")%>;
 	if(id!=null){
-	$.post("user_info.do",{USER_ID:id},
+	$("input[name='LOGIN_PWD']").parent().parent().hide();
+	$("input[name='LOGIN_REPWD']").parent().parent().hide();
+	$("input[name='LOGIN_PWD']").attr("disabled","disabled");
+	$("input[name='LOGIN_REPWD']").attr("disabled","disabled");
+	$.post("pa/user_info.s",{USER_ID:id},
 		function(data){
 			if(data.length>0){
 				$("input[name='LOGIN_NAME']").val(data[0]["LOGIN_NAME"]);
 				$("input[name='LOGIN_NAME']").attr("disabled","disabled");
 				$("input[name='USER_NAME']").val(data[0]["USER_NAME"]);
 				$("input[name='USER_MOBILE']").val(data[0]["USER_MOBILE"]);
-				
-				$("input[name='LOGIN_PWD']").parent().parent().hide();
-				$("input[name='LOGIN_REPWD']").parent().parent().hide();
-				$("input[name='LOGIN_PWD']").attr("disabled","disabled");
-				$("input[name='LOGIN_REPWD']").attr("disabled","disabled");
-				
 			}
 		},"json");
 	}
@@ -87,7 +92,7 @@ em{
         <li> <span class="lab">
           <label for="">用户名：</label>
           </span> <span class="mod">
-          <input name="LOGIN_NAME" type="text" class="text w140" valida="ajax" validaParam='{"url":"user_check.do"}' validaMsg="用户名已存在"/>
+          <input name="LOGIN_NAME" type="text" class="text w140" valida="ajax" validaParam='{"url":"pa/user_check.s"}' validaMsg="用户名已存在"/>
           <em></em></span> </li>
         <li> <span class="lab">
           <label for="">密　码：</label>
@@ -110,6 +115,13 @@ em{
           <label for="">手　机：</label>
           </span> <span class="mod">
           <input name="USER_MOBILE" type="text" class="text w140" id="" />
+          </span> </li>
+		<li> <span class="lab">
+          <label for="">所在部门：</label>
+          </span> <span class="mod">
+          <select id="ORG_ID" name="ORG_ID" class="w140">
+		  	
+		  </select>
           </span> </li>
 		
       </ul>

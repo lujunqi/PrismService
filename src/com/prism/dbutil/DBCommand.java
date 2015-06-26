@@ -13,6 +13,7 @@ public class DBCommand {
 	public DBCommand(Object dbconn){
 		this.dbconn = (DBConnection)dbconn;
 	}
+
 	public List<Map<String, Object>> executeSelect(String sql,
 			Map<String, Object> map) throws DAOException {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
