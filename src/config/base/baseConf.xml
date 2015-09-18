@@ -16,13 +16,17 @@
 		scope="prototype">
 		<!-- JNDI方式连接数据库 -->
 
-		<property name="JNDI" value="jdbc/connectDB" />
+		<property name="JNDI" value="jdbc/connectDB" /> 
 
 		<!-- JDBC方式连接数据库 -->
-		<!-- <property name="JDBC"> <map> <entry key="username" value="hncust2" 
-			/> <entry key="password" value="hncust2allinpay" /> <entry key="url" value="jdbc:oracle:thin:@10.80.1.188:1521:hnaps" 
-			/> <entry key="driverClassName" value="oracle.jdbc.OracleDriver"/> </map> 
-			</property> -->
+		<!-- <property name="JDBC">
+			<map>
+				<entry key="username" value="ivr" />
+				<entry key="password" value="ivr123" />
+				<entry key="url" value="jdbc:mysql://127.0.0.1/ivr_verify" />
+				<entry key="driverClassName" value="com.mysql.jdbc.Driver" />
+			</map>
+		</property> -->
 		<!-- 自定的数据库连接 -->
 		<!-- <property name="CONN"> <ref bean="otherConnection"/> </property> -->
 	</bean>
@@ -35,5 +39,5 @@
 	<import resource="../hntl/yunweiHTML.xml" />
 	<import resource="../hntl/yunweiConf.xml" />
 
-	
+
 </beans>
