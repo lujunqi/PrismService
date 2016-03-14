@@ -27,81 +27,6 @@ public class VMControl {
 	private HttpServletRequest req;
 	private HttpServletResponse res;
 	private ApplicationContext context;
-	private List<Object[]> my_enum = new ArrayList<Object[]>();
-	private String js = "";
-
-	@SuppressWarnings("unchecked")
-	public List<Object[]> getMapping() {
-		if (req.getAttribute("MAPPING") != null) {
-			my_enum = new ArrayList<Object[]>();
-			if (req.getAttribute("MAPPING") instanceof String) {
-				String mapping = (String) req.getAttribute("MAPPING");
-				vc.put("m", this);
-				try {
-					js += getResultfromContent(mapping, vc)+"\n";
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			if (req.getAttribute("MAPPING") instanceof List) {
-				my_enum = (List<Object[]>) req.getAttribute("MAPPING");
-			}
-		}
-		return my_enum;
-	}
-
-	public String getJS() {
-		return js;
-	}
-
-	public void add(String key, String val) {
-		my_enum.add(new Object[] { key, val });
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<String> getButton() {
-		List<String> list = new ArrayList<String>();
-		if (req.getAttribute("BUTTON") != null) {
-			if (req.getAttribute("BUTTON") instanceof String) {
-				new VelocityContext();
-				String s = (String) req.getAttribute("BUTTON");
-				
-				vc.put("b", list);
-
-				try {
-					js+= getResultfromContent(s, vc)+"\n";
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			if (req.getAttribute("BUTTON") instanceof List) {
-				list = (List<String>) req.getAttribute("BUTTON");
-			}
-		}
-		return list;
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<String> getQuery() {
-		List<String> query = new ArrayList<String>();
-		if (req.getAttribute("QUERY") != null) {
-			if (req.getAttribute("QUERY") instanceof String) {
-				new VelocityContext();
-				String s = (String) req.getAttribute("QUERY");
-				vc.put("el", this);
-				vc.put("q", query);
-				try {
-					getResultfromContent(s, vc);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			if (req.getAttribute("QUERY") instanceof List) {
-				query = (List<String>) req.getAttribute("QUERY");
-			}
-		}
-		return query;
-	}
 
 	@SuppressWarnings("unchecked")
 	public VMControl(HttpServletRequest req, HttpServletResponse res) {
@@ -113,8 +38,7 @@ public class VMControl {
 	}
 
 	private VelocityContext vc = new VelocityContext();
-	// private String title = "";
-	private Map<String, String> titleMap = new HashMap<String, String>();;
+	private String title = "";
 
 	@SuppressWarnings("unchecked")
 	public List<Map<String, Object>> getContext(String name) {
@@ -132,46 +56,20 @@ public class VMControl {
 		}
 		return result;
 	}
-
-	public String win(String title, String name, String content) {
+	public String win(String title,String name,String content){
 		String unit = m_unit.get("EL:WIN");
-		String t = String.format(unit, name, setNull(content));
-		titleMap.put(t, title);
-		return t;
+		this.title = title;
+		return String.format(unit, name, setNull(content));
 	}
-
+	
 	public String text(String title, String name) {
-		return text(title, name, null);
+		return text(title, name, "");
 	}
 
-	public String text(String title, String name, Map<String, String> map) {
+	public String text(String title, String name, String value) {
 		String unit = m_unit.get("EL:TEXT");
-		String other = "";
-		if (map != null) {
-			for (Map.Entry<String, String> en : map.entrySet()) {
-				other += en.getKey() + "=\"" + en.getValue() + "\" ";
-			}
-		}
-		String t = String.format(unit, name, other);
-		titleMap.put(t, title);
-		return t;
-	}
-
-	public String pwd(String title, String name) {
-		return pwd(title, name, null);
-	}
-
-	public String pwd(String title, String name, Map<String, String> map) {
-		String unit = m_unit.get("EL:PWD");
-		String other = "";
-		if (map != null) {
-			for (Map.Entry<String, String> en : map.entrySet()) {
-				other += en.getKey() + "=\"" + en.getValue() + "\" ";
-			}
-		}
-		String t = String.format(unit, name, other);
-		titleMap.put(t, title);
-		return t;
+		this.title = title;
+		return String.format(unit, name, setNull(value));
 	}
 
 	public String hidden(String name, String value) {
@@ -187,11 +85,12 @@ public class VMControl {
 	public String checkbox(String title, String name,
 			List<Map<String, String>> list, String[] c) {
 		String unit = m_unit.get("EL:CHECKBOX");
+		this.title = title;
 		String html = "";
 		Set<String> s = new HashSet<String>();
 		if (c != null) {
 			int i = 0;
-			for (String x : c) {
+			for(String x:c){
 				s.add(c[i]);
 				i++;
 			}
@@ -203,12 +102,11 @@ public class VMControl {
 			if (tmps.containsKey("C")) {
 				checked = "checked=\"checked\"";
 			}
-			if (s.contains(value)) {
+			if(s.contains(value)){
 				checked = "checked=\"checked\"";
 			}
 			html += String.format(unit, name, value, des, setNull(checked));
 		}
-		titleMap.put(html, title);
 		return html;
 	}
 
@@ -220,7 +118,7 @@ public class VMControl {
 	public String radio(String title, String name,
 			List<Map<String, String>> list, String c) {
 		String unit = m_unit.get("EL:RADIO");
-		// this.title = title;
+		this.title = title;
 		String html = "";
 		for (Map<String, String> tmps : list) {
 			String value = tmps.get("V");
@@ -234,7 +132,6 @@ public class VMControl {
 			}
 			html += String.format(unit, name, value, des, setNull(checked));
 		}
-		titleMap.put(html, title);
 		return html;
 	}
 
@@ -246,7 +143,9 @@ public class VMControl {
 	public String select(String title, String name,
 			List<Map<String, String>> list, String c) {
 		String unit = m_unit.get("EL:SELECT");
+		this.title = title;
 		String html = "";
+
 		for (Map<String, String> tmps : list) {
 			String value = tmps.get("V");
 			String des = tmps.get("D");
@@ -260,16 +159,13 @@ public class VMControl {
 			html += String.format("<option value=\"%1$s\" %3$s>%2$s</option>",
 					value, des, setNull(checked));
 		}
-		String t = String.format(unit, name, html);
-
-		return t;
+		return String.format(unit, name, html);
 	}
 
 	public String date(String title, String name, String val1, String val2) {
 		String unit = m_unit.get("EL:DATE");
-		String t = String.format(unit, name, setNull(val1), setNull(val2));
-		titleMap.put(t, title);
-		return t;
+		this.title = title;
+		return String.format(unit, name, setNull(val1), setNull(val2));
 	}
 
 	public String date(String title, String name) {
@@ -278,14 +174,18 @@ public class VMControl {
 
 	public String getHtml(String unit) {
 		vc.put("el", this);
-		String title = titleMap.get(unit);
+		try {
+			unit = getResultfromContent(unit, vc);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		String html = "";
 		if ("".equals(title)) {
 			html = unit;
+//			System.out.println(html + "============");
 		} else {
-			html = String.format(
-					"<span class=\"mr5\"><label>%1$s</label> %2$s </span>",
-					title, unit);
+			html = String.format("<li><label>%1$s:</label>%2$s</li>", title,
+					unit);
 		}
 		return html;
 	}

@@ -45,9 +45,9 @@ public class MybatisService implements Service {
 		try {
 			SqlSession sqlSession = getSession();
 //			System.out.println(reqMap);
-			if (reqMap.containsKey("prism_begin_number") && reqMap.containsKey("prism_end_number")) {
-				int minnum = Integer.parseInt(reqMap.get("prism_begin_number") + "");
-				int maxnum = Integer.parseInt(reqMap.get("prism_end_number") + "");
+			if (reqMap.containsKey("@minnum") && reqMap.containsKey("@maxnum")) {
+				int minnum = Integer.parseInt(reqMap.get("@minnum") + "");
+				int maxnum = Integer.parseInt(reqMap.get("@maxnum") + "");
 				List<Object> l = sqlSession.selectList(sqlKey, reqMap,
 						new RowBounds(minnum, maxnum - minnum));
 				sqlSession.close();

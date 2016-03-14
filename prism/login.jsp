@@ -2,7 +2,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title></title>
+<title>事故跟单系统</title>
 <meta charset="utf-8">
 <meta name="keywords" content=".........">
 <meta name="description" content=".........">
@@ -35,7 +35,7 @@ function submit(){
 	$.post(url,param,function(data){
 		
 		if(data.length>0){
-			window.location.href="index.do";
+			window.location.href="index.jsp";
 		}else{
 			dialog("请输入正确的账号密码");
 		}
@@ -63,9 +63,11 @@ function dialog(v_content){
 
 <div class="topimg">
 <div id="login">
-<form onSubmit="return false;">
+
     <div class="form" id="myForm" >
+    
         <ul>
+        
         <li><label>用户名：</label><span class="inputWrap"><span class="fix">
         <input class="txt"  type="text" id="USER_ACC" name="USER_ACC" />
         </span></span></li>
@@ -82,8 +84,8 @@ function dialog(v_content){
         <!--<a href="#" class="getCode">忘记密码?</a>-->
         </li>
         </ul>
+    
     </div>    
-</form>
 </div>
 </div>
 

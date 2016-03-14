@@ -15,7 +15,7 @@ import net.sf.json.JSONObject;
 public class JsonUtil {
 	public static void main(String[] arg) {
 		JsonUtil ju = new JsonUtil();
-		String json = "[{\"acc_no\":[{\"bank_code\":12,\"no\":\"1\\\"\\\"2345\"}],\"name\":\"X\",\"bank_code\":\"308\"}]";
+		String json = "[{\"acc_no\":[{\"bank_code\":12,\"no\":12345}],\"name\":\"X\",\"bank_code\":\"308\"}]";
 		 @SuppressWarnings("unchecked")
 		List<Object> list = (List<Object>)ju.toObject(json);
 		System.out.println(list);

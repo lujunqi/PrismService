@@ -84,7 +84,7 @@ function func_page(opt,$this){
 		var $data = opt["param"];
 		$.post(opt["pageUrl"],$data,function(data){
 			try{
-				var total_page = Math.ceil(data[0]["TOTAL"]/pager_display); //总记录页
+				var total_page = Math.ceil(data[0]["total"]/pager_display); //总记录页
 				$page.html(update_page(total_page,current_page));
 				$("a[current_page]",$page).click(function(){
 					var that = $(this);
@@ -231,9 +231,6 @@ $.fn.formValidator = function(){
 	var validas = $("[valida]",$this);
 	for(var i =0;i<validas.length;i++){
 		var c = validas.eq(i);
-		if(c.attr("disabled")=="disabled"){
-			continue;
-		}
 		var data = func_formValidator(c);
 		if(data==false){
 			result.push(c);

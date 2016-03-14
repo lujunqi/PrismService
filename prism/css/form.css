@@ -22,13 +22,13 @@
 	*display:inline;
 	*zoom:1;
 	width:49.0%;
-
+	background:url(../images/frmListLab.png) repeat-y;
 }
 .frmList li {
 	clear:both;
 	border-top:1px solid #fcfcfc;
 	border-bottom:1px solid #efefef;
-
+	background:url(../images/frmListLab.png) repeat-y;
 }
 .frmList li .lab {
 	display:inline-block;

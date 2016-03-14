@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>卡布管理后台</title>
+<base target="main" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="css/global-min.css" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+<script type="text/javascript" src="scripts/jquery.js"></script>
+<script type="text/javascript" src="scripts/jquery.prism.js"></script>
+<script type="text/javascript"
+	src="scripts/ztree/jquery.ztree-2.6.min.js"></script>
+<link rel="stylesheet" href="scripts/ztree/zTreeStyle/zTreeIcons.css"
+	type="text/css">
+<link rel="stylesheet" href="scripts/ztree/zTreeStyle/zTreeStyle.css"
+	type="text/css">
+<script type="text/javascript">
+	$(function() {
+		initSide();
+		var param = {};
+		param["data"] = {
+			id : 1000,
+			name : 'a',
+			session_USER_ID : 137
+		};
+		param["async"] = false;
+		$("#menu1").prism(param);
+		var param2 = {};
+		param2["async"] = false;
+		param2["data"] = {
+			id : 2000,
+			name : 'b',
+			session_USER_ID : 137
+		};
+		$("#menu2").prism(param2);
+		var param3 = {};
+		param3["async"] = false;
+		param3["data"] = {
+			id : 3000,
+			name : 'b',
+			session_USER_ID : 137
+		};
+		$("#menu3").prism(param3);
+	});
+	function initSide() {
+		var $obj = $('#sidebar .sideNav');
+		var $st = $('.subtit', $obj);
+		var $sl = $('.sublist', $obj);
+		$sl.hide();
+		$st.find('a').append('<em class="spread">&nbsp;</em>');
+		var $sprshr = $('.spread', $obj);
+
+		$st.toggle(function() {
+			$(this).find('.spread').addClass('shrink');
+			$(this).next('.sublist').slideDown();
+			return false;
+		}, function() {
+			$(this).find('.spread').removeClass('shrink');
+			$(this).next('.sublist').slideUp();
+			return false;
+		});
+	}
+
+	//树形菜单 
+	var zTree;
+	var treeNode;
+	
+	var setting = {
+		isSimpleData : true,
+		treeNodeKey : "DPT_ID",
+		treeNodeParentKey : "DPT_PARENT",
+		nameCol : "DPT_NAME",
+		fontCss : {
+			color : "#0186bc"
+		},
+		showLine : false,
+		showIcon : false,
+		callback : {
+			click : zTreeOnClick
+		}
+	};
+
+	var zTreeNodes;
+	$(function() {
+		/*
+		$.ajax({
+			async : false,
+			cache : false,
+			type : 'POST',
+			dataType : "json",
+			url : "department_info!select2Json.action",//请求的action路径  
+			error : function() {//请求失败处理函数  
+				alert('请求失败');
+			},
+			success : function(data) { //请求成功后处理函数。    
+				alert(data);
+				zTreeNodes = data;   //把后台封装好的简单Json格式赋给treeNodes 
+				
+			}
+		});
+		*/
+		$.post("department_info_menu!select2Json.action",function(data){
+			zTreeNodes = data;   //把后台封装好的简单Json格式赋给treeNodes 
+			zTree = $("#ztree").zTree(setting, zTreeNodes);
+		},'json');
+		
+	});
+
+	function zTreeOnClick(event, treeId, treeNode) {
+		var tid = treeNode.DPT_ID;
+		//alert(tid);
+		doDepartSearch(tid);
+	}
+	//根据ID查询部门
+	function doDepartSearch(id){
+		"page/department_manager.jsp";
+	}
+</script>
+</head>
+
+<body id="sidepage">
+
+<div id="sidebar">
+<ul class="sideNav">
+	<li class="major">
+	<h2 class="subtit"><a href="#"><img src="images/ico2.gif"
+		alt="ico" /><span>部门管理</span></a></h2>
+		  <ul class="sublist" id="menu2" prism:type="dataGrid" prism:src="left!selectObject.action">
+	        <li><a href="#@MENU_URL#">#@MENU_NAME#</a></li>
+	        </ul>	        
+	<!--     
+	<ul id="ztree" class="tree">
+	</ul>
+	--> 
+	</li>
+	<li class="major">
+	<h2 class="subtit"><a href="#"><img src="images/ico3.gif"
+		alt="ico" /><span>员工管理</span></a></h2>
+	<ul class="sublist" id="menu1" prism:type="dataGrid"
+		prism:src="left!selectObject.action">
+		<li><a href="#@MENU_URL#">#@MENU_NAME#</a></li>
+	</ul>
+	</li>
+	<li class="major">
+	<h2 class="subtit"><a href="#"><img src="images/ico3.gif"
+		alt="ico" /><span>系统管理</span></a></h2>
+	<ul class="sublist" id="menu3" prism:type="dataGrid"
+		prism:src="left!selectObject.action">
+		<li><a href="#@MENU_URL#">#@MENU_NAME#</a></li>
+	</ul>
+	</li>
+</ul>
+</div>
+
+</body>
+</html>

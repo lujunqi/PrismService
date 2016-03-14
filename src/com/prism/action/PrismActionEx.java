@@ -23,17 +23,19 @@ public class PrismActionEx extends HttpServlet {
 
 	public void init() throws ServletException {
 		System.out.println("PrismActionEx正在加载....");
-		context = new ClassPathXmlApplicationContext(xmls[0],"config/base/taskConf.xml");
+		context = new ClassPathXmlApplicationContext(xmls);
 	}
 
 	public void service(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		try {
+			System.out.println("=====");
 			context = new ClassPathXmlApplicationContext(xmls);
 			req.setCharacterEncoding("UTF-8");
 			res.setContentType("text/html;charset=UTF-8");
 			String action = getAction(req);
 			String exName = getExtendName(req);
+			System.out.println(action+"=="+exName);
 			Service vm = (Service) context.getBean(exName);
 			if (context.containsBean(action)) {// 优先XML配置
 				Service s = (Service) context.getBean(action);
@@ -41,6 +43,7 @@ public class PrismActionEx extends HttpServlet {
 			} else {
 				SourceMap smap = new SourceMap();
 				smap.putAll(vm.getSourceMap());
+				
 				smap.setKey(action, context.getBean("DBConnection"));
 				vm.setSourceMap(smap);
 			}
@@ -64,7 +67,7 @@ public class PrismActionEx extends HttpServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			req.getRequestDispatcher("/error.jsp").forward(req, res);
+			//req.getRequestDispatcher("/error.jsp").forward(req, res);
 		}
 	}
 

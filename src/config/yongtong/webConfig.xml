@@ -82,15 +82,6 @@ SELECT T.CHANNEL_ID V, T.CHANNEL_NAME D FROM CHANNEL_INFO T
 			</map>
 		</property>
 	</bean>
-	
-	<bean id="json" class="com.prism.service.impl.basic.NormalSltService">
-		<property name="sourceMap">
-			<map>
-				<entry key="VIEW" value="${v.toJson()}" />
-			</map>
-		</property>
-	</bean>
-	
 	<bean id="vehicle_list" class="com.prism.service.impl.basic.NormalSltService">
 		<property name="sourceMap">
 			<map>

@@ -83,7 +83,6 @@ public class VMPreparedStatement implements XStatement {
 	 * @return Object型 影响记录数
 	 */
 	public Object executeUpdate(String sql) throws SQLException {
-		System.out.println(sql+"============"+preparedSql(sql));
 		PreparedStatement cmd = conn.prepareStatement(preparedSql(sql));
 		List<String> list = getParam(sql);
 		for (int i = 0; i < list.size(); i++) {
@@ -323,5 +322,6 @@ public class VMPreparedStatement implements XStatement {
 		Object val = vm.put(param, map.get(rf.getClassName()));
 		System.out.println(val + "+====" + rf.getClassName() + "++" + type
 				+ "==");
+
 	}
 }

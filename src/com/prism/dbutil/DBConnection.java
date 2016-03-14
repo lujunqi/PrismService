@@ -14,6 +14,14 @@ import javax.sql.DataSource;
 import com.prism.exception.DAOException;
 
 public class DBConnection {
+	public static void main(String[] args) throws Exception {
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection CONN = DriverManager.getConnection(
+				"jdbc:mysql://127.0.0.1:3306/prism",
+				"root",
+				"lost");
+		System.out.println(CONN.isClosed()+"=============");
+	}
 	private Connection CONN = null;
 	private String JNDI = null;
 	private Map<String, String> JDBC = new HashMap<String, String>();
@@ -38,6 +46,7 @@ public class DBConnection {
 							(String) JDBC.get("url"),
 							(String) JDBC.get("username"),
 							(String) JDBC.get("password"));
+					System.out.println(CONN.isClosed()+"=============");
 				}
 			}
 		} catch (NamingException e) {

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+//import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -29,14 +30,14 @@ public class PrismAction extends HttpServlet {
 	public void service(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		try {
-			context = new ClassPathXmlApplicationContext(xmls);
-			
 			req.setCharacterEncoding("UTF-8");
 			res.setContentType("text/html;charset=UTF-8");
 			String action = getAction(req);
 			Service vm = (Service) context.getBean(action);
+
 			Map<String, Object> reqMap = new HashMap<String, Object>();
 
+			@SuppressWarnings("unchecked")
 			Enumeration<String> en = req.getParameterNames();
 			while (en.hasMoreElements()) {
 				String name = en.nextElement();
@@ -63,9 +64,7 @@ public class PrismAction extends HttpServlet {
 		try {
 			String relativeuri = req.getRequestURI().replaceFirst(
 					req.getContextPath(), "");
-			if("/".equals(relativeuri)){
-				return "index";
-			}
+
 			relativeuri = relativeuri.replaceAll("/", "");
 			int exLen = relativeuri.lastIndexOf(".");
 			StringBuffer sb = new StringBuffer(relativeuri);
@@ -76,20 +75,20 @@ public class PrismAction extends HttpServlet {
 		}
 	}
 
-//	private String getExtendName(HttpServletRequest req) {
-//		try {
-//			String relativeuri = req.getRequestURI().replaceFirst(
-//					req.getContextPath(), "");
-//
-//			relativeuri = relativeuri.replaceAll("/", "");
-//			int exLen = relativeuri.lastIndexOf(".");
-//			StringBuffer sb = new StringBuffer(relativeuri);
-//			return sb.substring(exLen);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return "error";
-//		}
-//	}
+	private String getExtendName(HttpServletRequest req) {
+		try {
+			String relativeuri = req.getRequestURI().replaceFirst(
+					req.getContextPath(), "");
+
+			relativeuri = relativeuri.replaceAll("/", "");
+			int exLen = relativeuri.lastIndexOf(".");
+			StringBuffer sb = new StringBuffer(relativeuri);
+			return sb.substring(exLen);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
 
 	public void destroy() {
 		super.destroy();

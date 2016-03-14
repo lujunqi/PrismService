@@ -3,7 +3,6 @@
  */
 package com.prism.common;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,16 +19,10 @@ import jxl.CellType;
 import jxl.LabelCell;
 import jxl.Sheet;
 import jxl.Workbook;
-import jxl.read.biff.BiffException;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-
-import com.prism.common.bean.VMExcel;
 
 public class ExcelCommon {
 	public static void main(String[] args) throws Exception {
@@ -61,16 +54,16 @@ public class ExcelCommon {
 				vc.put(e.getKey(), e.getValue());
 			}
 
-//			HSSFWorkbook workbook = new HSSFWorkbook();
+			HSSFWorkbook workbook = new HSSFWorkbook();
 
-			 Workbook wb = Workbook.getWorkbook(new File(modelPath));
-			 WritableWorkbook wwb = Workbook.createWorkbook(os, wb);
-			 WritableSheet ws = wwb.getSheet(0);
-			 VMExcel excel = new VMExcel(ws);
-			 vc.put("excel", excel);
-			 getResultfromContent(rule);
-			 wwb.write();
-			 wwb.close();
+			// Workbook wb = Workbook.getWorkbook(new File(modelPath));
+			// WritableWorkbook wwb = Workbook.createWorkbook(os, wb);
+			// WritableSheet ws = wwb.getSheet(0);
+			// VMExcel excel = new VMExcel(ws);
+			// vc.put("excel", excel);
+			// getResultfromContent(rule);
+			// wwb.write();
+			// wwb.close();
 			os.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -82,10 +75,6 @@ public class ExcelCommon {
 			// e.printStackTrace();
 			// } catch (JXLException e) {
 			// e.printStackTrace();
-		} catch (BiffException e) {
-			e.printStackTrace();
-		} catch (WriteException e) {
-			e.printStackTrace();
 		}
 	}
 

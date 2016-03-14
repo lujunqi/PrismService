@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*,java.net.*" pageEncoding="UTF-8"%>
-<%@page import="manager.ManagerMenu"%>
 <%
 Object user_name = session.getAttribute("USER_NAME");
 Object user_id = session.getAttribute("USER_ID");
@@ -11,7 +10,7 @@ if(user_id==null){
 <!DOCTYPE HTML>
 <html>
 <head>
-<title></title>
+<title>事故跟单系统</title>
 <meta charset="utf-8">
 <meta name="keywords" content=".........">
 <meta name="description" content=".........">
@@ -20,68 +19,83 @@ if(user_id==null){
 <script type="text/javascript" src="scripts/jquery.js"></script>
 <script type="text/javascript" src="scripts/lhgdialog/lhgdialog.min.js?skin=dblue"></script>
 <script type="text/javascript" src="scripts/common.js"></script>
-<script type="text/javascript" src="prism/jquery.prism.2.0.js"></script>
-
 <script type="text/javascript">
-function func_pwd(){
-  var w = {};
-  var dt = [];
-  w["WIDGET"] = dt;
-  dt.push(['原密码','<input name="OLD_LOGIN_PWD" type="password" class="password w140" />']);
-  dt.push(['新密码','<input name="NEW_LOGIN_PWD" type="password" class="password w140"/>']);
-  dt.push(['确认密码','<input name="RE_LOGIN_PWD" type="password" class="password w140"/>']);
-  win("url:page/win1.jsp","修改密码","pa/user_pwd_upt.u",w);
-  
+$(init);
+function init(){
+	tick();
 }
-function win($content,$title,$url,$data){
-	return $.dialog({
-		title:$title,
-		width:450,
-		height:220,
-		fixed: true,
-		max: false,
-		min: false,
-		resize: false,
-		drag: true,
-		lock: true,
-		lockScroll:true,
-		content: $content,
-		data:$data,
-		ok: function(){
-			var url = $url;
-			var param = $.formField("#form",this.content.document.body);
-			if(param["NEW_LOGIN_PWD"]!=param["NEW_LOGIN_PWD"]){
-				alert("密码输入不一致");
-				return false;
-			}
-			$.post(url,param,function(data){
-				if(data.result !='0'){
-					
-				}else{
-					return false;
-				}
-			},"json");
-
-		},
-		cancel:function(){
-		}
+function showLocale(objD)
+{
+	var str,colorhead,colorfoot;
+	var yy = objD.getYear();
+	if(yy<1900) yy = yy+1900;
+	var MM = objD.getMonth()+1;
+	if(MM<10) MM = '0' + MM;
+	var dd = objD.getDate();
+	if(dd<10) dd = '0' + dd;
+	var hh = objD.getHours();
+	if(hh<10) hh = '0' + hh;
+	var mm = objD.getMinutes();
+	if(mm<10) mm = '0' + mm;
+	var ss = objD.getSeconds();
+	if(ss<10) ss = '0' + ss;
+	var ww = objD.getDay();
+	if  ( ww==0 )  colorhead="<font class='clock'>";
+	if  ( ww > 0 && ww < 6 )  colorhead="<font class='clock'>";
+	if  ( ww==6 )  colorhead="<font class='clock'>";
+	if  (ww==0)  ww="星期日";
+	if  (ww==1)  ww="星期一";
+	if  (ww==2)  ww="星期二";
+	if  (ww==3)  ww="星期三";
+	if  (ww==4)  ww="星期四";
+	if  (ww==5)  ww="星期五";
+	if  (ww==6)  ww="星期六";
+	colorfoot="</font>"
+	str = colorhead + yy + "年" + MM + "月" + dd + "日&nbsp;&nbsp;" + hh + ":" + mm + ":" + ss + "&nbsp;&nbsp;" + ww + colorfoot;
+	return(str);
+}
+function tick()
+{
+	var today;
+	today = new Date();
+	document.getElementById("date").innerHTML = showLocale(today);
+	window.setTimeout("tick()", 1000);
+}
+function getPages(){
+	$.dialog.confirm('你确定要生成页面吗？', function(){
+		$.dialog.tips('页面生成中...',600,'loading.gif');
+		var url = "pages.do";
+		$.post(url,function(data){
+			$.dialog.tips('页面生成完毕',1,'tips.gif',function(){
+				$.dialog.confirm('你确定要预览这个页面？<br/>（注意：页面生成后，必需要做手工页面流量的填写）', function(){
+					window.location.href="index.html";
+				});
+			});
+		});
 	});
 }
+
 </script>
+<!--[if IE 6]>
+<script type="text/javascript" src="scripts/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script type="text/javascript">
+	DD_belatedPNG.fix('.pngfix');
+</script>
+<![endif]-->
 </head>
 
 <body class="fluid">
+
 <div class="container">
   <div id="header">
     <div class="inner">
-    <h1 id="site-name"></h1>
-    <div id="site-logo" class="fl"><a href="#"></a></div>
+    <h1 id="site-name">事故跟单系统</h1>
+    <div id="site-logo" class="fl"><a href="#"><img class="pngfix" src="images/logo.png" alt="快乐冲浪内容管理系统" width="579" height="80" /></a></div>
     <div id="logout"><!--a class="pngfix" href="#">退出登录</a--></div>
     <ul id="site-nav" class="clearfix">
-      <li class="user"><span><%=user_name%></span>欢迎您</li>
+      <li class="user"><span><%=user_name%></span>欢迎您 </li>
  
-      <li style="float: right;"><a href="logout.jsp" style="clear:both;">注销</a></li>
-	  <li style="float: right;"><a href="javascript:func_pwd();" style="clear:both;">修改密码</a></li>
+      <li class="timer"><span id="date"></span></li>
     </ul>
     </div>
   </div>
@@ -97,12 +111,28 @@ function win($content,$title,$url,$data){
     <!--/.content-->
     
     <div class="sidebar">
-		<ul class="sideNav">
-		<%
-		ManagerMenu mm = new ManagerMenu();
-		out.println(mm.service(request,response));
-		%>
-		</ul>
+      <ul class="sideNav">
+        <li class="major">
+          <h2 class="subtit"><a class="" href="#" target="main"><span class="">事故跟单</span></a></h2>
+          <ul class="sublist" >
+            <li><a target="main" href="page/vehicle_list.jsp">车型信息</a></li>
+            <li><a target="main"  href="page/mobile_list.jsp">手机卡信息</a></li>
+            <li><a target="main" href="page/insurer_list.jsp">保险公司信息</a></li>
+            <li><a target="main" href="page/alloc_rule_list.jsp">自动派单</a></li>
+            <li><a target="main" href="page/task1_list.jsp">手工派单</a></li>
+          </ul>
+        </li>
+
+        <li class="major">
+          <h2 class="subtit"><a class="" href="#"><span class="">系统管理</span></a></h2>
+          <ul class="sublist" >
+            <li><a class="" href="javascript:getPages();"><span class="">用户管理</span></a></li>
+          </ul>
+        </li>
+        <li class="major">
+          <h2 class="subtit"><a class="" href="#"><span class="">查询统计</span></a></h2>
+        </li>
+      </ul>
     </div>
     <!--/.sidebar -->
     
@@ -118,7 +148,7 @@ function win($content,$title,$url,$data){
 <div id="footer">
   <div class="container">
     <div id="copyright">
-      <p class="tc">Copyright &copy; 2000-2015 </p>
+      <p class="tc">Copyright &copy; 2000-2013 </p>
     </div>
   </div>
 </div>
